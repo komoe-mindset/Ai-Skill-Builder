@@ -1,0 +1,6 @@
+{
+  "name": "Gemini Skill Builder Guide",
+  "description": "Mobile-responsive touch-friendly interactive guide and generator for creating AI Skills with Gemini Skill Builder Gem in Myanmar language.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
