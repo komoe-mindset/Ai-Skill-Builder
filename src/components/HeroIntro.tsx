@@ -6,11 +6,13 @@ import {
   Bot,
   BookOpen,
   Cpu,
+  Server,
 } from 'lucide-react';
 import {
   GEMINI_SKILL_BUILDER_GEM_URL,
   GEMINI_SPARK_GUIDE_URL,
   SPARK_SKILL_STUDIO_URL,
+  MCP_GUIDE_URL,
 } from '../types';
 import { Language, TRANSLATIONS } from '../translations';
 
@@ -74,6 +76,18 @@ export const HeroIntro: React.FC<HeroIntroProps> = ({
               <BookOpen className="w-3.5 h-3.5 text-amber-600" />
               <span>{t.sparkGuideBtn}</span>
               <ExternalLink className="w-3 h-3 text-amber-500" />
+            </a>
+
+            <a
+              href={MCP_GUIDE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200/80 hover:bg-emerald-100 transition"
+              title="MCP Guide Website (https://mcp-guide.komoe.org/)"
+            >
+              <Server className="w-3.5 h-3.5 text-emerald-600" />
+              <span>{t.mcpGuideBtn}</span>
+              <ExternalLink className="w-3 h-3 text-emerald-500" />
             </a>
           </div>
 

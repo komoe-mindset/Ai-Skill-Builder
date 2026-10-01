@@ -9,11 +9,13 @@ import {
   Cpu,
   Layers,
   Globe,
+  Server,
 } from 'lucide-react';
 import {
   GEMINI_SKILL_BUILDER_GEM_URL,
   GEMINI_SPARK_GUIDE_URL,
   SPARK_SKILL_STUDIO_URL,
+  MCP_GUIDE_URL,
 } from '../types';
 import { Language, TRANSLATIONS } from '../translations';
 
@@ -120,6 +122,17 @@ export const Header: React.FC<HeaderProps> = ({
             <span>Gem</span>
             <ExternalLink className="w-3 h-3 text-blue-500" />
           </a>
+          <a
+            href={MCP_GUIDE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 px-2 py-1.5 text-xs font-bold text-emerald-800 bg-emerald-50 border border-emerald-200/80 rounded-xl active:bg-emerald-100 transition"
+            title="MCP Guide Website (https://mcp-guide.komoe.org/)"
+          >
+            <Server className="w-3.5 h-3.5 text-emerald-600" />
+            <span>MCP</span>
+            <ExternalLink className="w-2.5 h-2.5 text-emerald-500" />
+          </a>
           <button
             type="button"
             id="mobile-templates-btn"
@@ -172,6 +185,19 @@ export const Header: React.FC<HeaderProps> = ({
           <Bot className="w-3.5 h-3.5 text-blue-600" />
           <span>{t.gemBtn}</span>
           <ExternalLink className="w-3 h-3 text-blue-600 opacity-80" />
+        </a>
+
+        {/* MCP Guide Website */}
+        <a
+          href={MCP_GUIDE_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-bold text-emerald-900 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200/90 rounded-xl shadow-2xs transition active:scale-[0.98]"
+          title="MCP Guide Website (https://mcp-guide.komoe.org/)"
+        >
+          <Server className="w-3.5 h-3.5 text-emerald-600" />
+          <span>{t.mcpGuideBtn}</span>
+          <ExternalLink className="w-3 h-3 text-emerald-600 opacity-80" />
         </a>
 
         {/* Ecosystem Suite Overview Modal Opener */}

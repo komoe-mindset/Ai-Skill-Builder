@@ -13,6 +13,7 @@ export interface Translations {
   studioBtn: string;
   gemBtn: string;
   sparkGuideBtn: string;
+  mcpGuideBtn: string;
 
   // Hero
   heroTag: string;
@@ -150,6 +151,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     studioBtn: 'Skill Studio & Architect',
     gemBtn: 'Skill Builder Gem',
     sparkGuideBtn: 'Spark Guide',
+    mcpGuideBtn: 'MCP Guide',
 
     // Hero
     heroTag: 'Spark Suite လမ်းညွှန်',
@@ -304,6 +306,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     studioBtn: 'Skill Studio & Architect',
     gemBtn: 'Skill Builder Gem',
     sparkGuideBtn: 'Spark Guide',
+    mcpGuideBtn: 'MCP Guide',
 
     // Hero
     heroTag: 'Spark Suite Guide',

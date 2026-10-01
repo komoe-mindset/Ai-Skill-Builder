@@ -10,11 +10,13 @@ import {
   Lightbulb,
   BookOpen,
   Cpu,
+  Server,
 } from 'lucide-react';
 import {
   GEMINI_SKILL_BUILDER_GEM_URL,
   GEMINI_SPARK_GUIDE_URL,
   SPARK_SKILL_STUDIO_URL,
+  MCP_GUIDE_URL,
 } from '../types';
 import { Language } from '../translations';
 
@@ -135,6 +137,33 @@ export const HelpModal: React.FC<HelpModalProps> = ({ lang, isOpen, onClose }) =
               className="inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs sm:text-sm rounded-xl shadow-xs transition"
             >
               <span>{lang === 'en' ? 'Open User Guide Website' : 'Gemini Spark User Guide ဝဘ်ဆိုဒ်သို့ သွားမည်'}</span>
+              <ExternalLink className="w-3.5 h-3.5" />
+            </a>
+          </div>
+
+          {/* MCP Guide Website Card */}
+          <div className="p-4 rounded-2xl bg-gradient-to-br from-emerald-50 to-teal-50/50 border border-emerald-200/90 space-y-2.5">
+            <div className="flex items-start justify-between gap-2">
+              <div>
+                <h4 className="font-bold text-emerald-950 flex items-center gap-1.5">
+                  <Server className="w-4 h-4 text-emerald-600" />
+                  <span>MCP Guide Website</span>
+                </h4>
+                <p className="text-xs text-emerald-900/80 mt-1 leading-normal">
+                  {lang === 'en'
+                    ? 'Comprehensive Model Context Protocol (MCP) guide explaining server setup, client integration, and practical developer workflows.'
+                    : 'Model Context Protocol (MCP) ဆာဗာများ တည်ဆောက်ခြင်း၊ ချိတ်ဆက်အသုံးပြုခြင်းနှင့် လက်တွေ့အသုံးချမှု နည်းလမ်းများကို လေ့လာနိုင်သော ဝဘ်ဆိုဒ် ဖြစ်ပါသည်။'}
+                </p>
+              </div>
+            </div>
+
+            <a
+              href={MCP_GUIDE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm rounded-xl shadow-xs transition"
+            >
+              <span>{lang === 'en' ? 'Open MCP Guide (mcp-guide.komoe.org)' : 'MCP Guide ဝဘ်ဆိုဒ်သို့ သွားမည် (mcp-guide.komoe.org)'}</span>
               <ExternalLink className="w-3.5 h-3.5" />
             </a>
           </div>

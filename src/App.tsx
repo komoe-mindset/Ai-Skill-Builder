@@ -5,10 +5,11 @@ import {
   GEMINI_SKILL_BUILDER_GEM_URL,
   GEMINI_SPARK_GUIDE_URL,
   SPARK_SKILL_STUDIO_URL,
+  MCP_GUIDE_URL,
 } from './types';
 import { Language, TRANSLATIONS } from './translations';
 import { buildPromptText, copyToClipboard } from './utils/helpers';
-import { ExternalLink, Cpu, BookOpen, Bot } from 'lucide-react';
+import { ExternalLink, Cpu, BookOpen, Bot, Server } from 'lucide-react';
 import { Header } from './components/Header';
 import { HeroIntro } from './components/HeroIntro';
 import { StepNavigation } from './components/StepNavigation';
@@ -254,6 +255,18 @@ export default function App() {
               <Bot className="w-3.5 h-3.5 text-blue-600" />
               <span>{t.gemBtn}</span>
               <ExternalLink className="w-3 h-3 text-blue-600" />
+            </a>
+
+            <a
+              href={MCP_GUIDE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 border border-emerald-200/90 text-emerald-900 font-bold transition shadow-2xs"
+              title="MCP Guide Website (https://mcp-guide.komoe.org/)"
+            >
+              <Server className="w-3.5 h-3.5 text-emerald-600" />
+              <span>{t.mcpGuideBtn}</span>
+              <ExternalLink className="w-3 h-3 text-emerald-600" />
             </a>
           </div>
 

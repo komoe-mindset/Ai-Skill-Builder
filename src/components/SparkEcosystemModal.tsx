@@ -11,11 +11,13 @@ import {
   CheckCircle2,
   Workflow,
   Cpu,
+  Server,
 } from 'lucide-react';
 import {
   SPARK_SKILL_STUDIO_URL,
   GEMINI_SKILL_BUILDER_GEM_URL,
   GEMINI_SPARK_GUIDE_URL,
+  MCP_GUIDE_URL,
 } from '../types';
 import { Language } from '../translations';
 
@@ -130,8 +132,8 @@ export const SparkEcosystemModal: React.FC<SparkEcosystemModalProps> = ({
             </a>
           </div>
 
-          {/* Grid of the other 2 Tools */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {/* Grid of Complementary Ecosystem Tools */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {/* Tool 2: Gemini Skill Builder Gem */}
             <div className="p-4 rounded-2xl bg-gradient-to-br from-blue-50/80 to-slate-50 border border-blue-200/90 space-y-2.5 flex flex-col justify-between">
               <div>
@@ -141,7 +143,7 @@ export const SparkEcosystemModal: React.FC<SparkEcosystemModalProps> = ({
                       <Bot className="w-4 h-4" />
                     </div>
                     <span className="font-bold text-slate-900 text-xs sm:text-sm">
-                      Gemini Skill Builder Gem
+                      Skill Builder Gem
                     </span>
                   </div>
                   <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-100 text-blue-700 border border-blue-200">
@@ -161,7 +163,7 @@ export const SparkEcosystemModal: React.FC<SparkEcosystemModalProps> = ({
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-1.5 w-full py-2 px-3 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-xs transition"
               >
-                <span>{lang === 'en' ? 'Open Gem' : 'Skill Builder Gem ဖွင့်မည်'}</span>
+                <span>{lang === 'en' ? 'Open Gem' : 'Gem ဖွင့်မည်'}</span>
                 <ExternalLink className="w-3 h-3" />
               </a>
             </div>
@@ -175,11 +177,11 @@ export const SparkEcosystemModal: React.FC<SparkEcosystemModalProps> = ({
                       <BookOpen className="w-4 h-4" />
                     </div>
                     <span className="font-bold text-slate-900 text-xs sm:text-sm">
-                      Gemini Spark User Guide
+                      User Guide
                     </span>
                   </div>
                   <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-200">
-                    Docs & Examples
+                    Docs
                   </span>
                 </div>
                 <p className="text-[11px] sm:text-xs text-slate-600 leading-normal">
@@ -195,7 +197,41 @@ export const SparkEcosystemModal: React.FC<SparkEcosystemModalProps> = ({
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-1.5 w-full py-2 px-3 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-xl shadow-xs transition"
               >
-                <span>{lang === 'en' ? 'Read Guide' : 'User Guide ဖတ်ရှုမည်'}</span>
+                <span>{lang === 'en' ? 'Read Guide' : 'Guide ဖတ်ရှုမည်'}</span>
+                <ExternalLink className="w-3 h-3" />
+              </a>
+            </div>
+
+            {/* Tool 4: MCP Guide Website */}
+            <div className="p-4 rounded-2xl bg-gradient-to-br from-emerald-50/80 to-teal-50/40 border border-emerald-200/90 space-y-2.5 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between mb-1.5">
+                  <div className="flex items-center gap-2">
+                    <div className="p-2 rounded-xl bg-emerald-100 text-emerald-800">
+                      <Server className="w-4 h-4" />
+                    </div>
+                    <span className="font-bold text-slate-900 text-xs sm:text-sm">
+                      MCP Guide
+                    </span>
+                  </div>
+                  <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">
+                    Protocol
+                  </span>
+                </div>
+                <p className="text-[11px] sm:text-xs text-slate-600 leading-normal">
+                  {lang === 'en'
+                    ? 'Model Context Protocol (MCP) guide for architecture, servers, and tool integrations for AI Agents.'
+                    : 'Model Context Protocol (MCP) ဆာဗာများ တည်ဆောက်ပုံ၊ Agent Tools ချိတ်ဆက်နည်း လက်စွဲလမ်းညွှန် ဖြစ်ပါသည်။'}
+                </p>
+              </div>
+
+              <a
+                href={MCP_GUIDE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-1.5 w-full py-2 px-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-xs transition"
+              >
+                <span>{lang === 'en' ? 'Open MCP Guide' : 'MCP Guide သို့ သွားမည်'}</span>
                 <ExternalLink className="w-3 h-3" />
               </a>
             </div>

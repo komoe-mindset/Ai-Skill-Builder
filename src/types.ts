@@ -7,6 +7,8 @@ export const GEMINI_SKILL_BUILDER_GEM_URL =
 
 export const GEMINI_SPARK_GUIDE_URL = 'https://gemini-spark.komoe.org/';
 
+export const MCP_GUIDE_URL = 'https://mcp-guide.komoe.org/';
+
 export interface SparkEcosystemTool {
   id: string;
   title: string;
@@ -47,6 +49,16 @@ export const SPARK_ECOSYSTEM_TOOLS: SparkEcosystemTool[] = [
     url: GEMINI_SPARK_GUIDE_URL,
     badge: 'Docs & Examples',
     badgeColor: 'bg-amber-100 text-amber-800 border-amber-200',
+  },
+  {
+    id: 'mcp-guide',
+    title: 'MCP Guide Website',
+    subtitle: 'Model Context Protocol လက်စွဲလမ်းညွှန်',
+    description:
+      'Model Context Protocol (MCP) ဆာဗာများ တည်ဆောက်ခြင်း၊ Tools ချိတ်ဆက်ခြင်းနှင့် AI Agents များအတွက် အသေးစိတ်လမ်းညွှန် ဝဘ်ဆိုဒ် ဖြစ်ပါသည်။',
+    url: MCP_GUIDE_URL,
+    badge: 'MCP Protocol',
+    badgeColor: 'bg-emerald-100 text-emerald-800 border-emerald-200',
   },
 ];
 
