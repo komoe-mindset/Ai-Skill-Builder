@@ -1,10 +1,29 @@
 import { DestinationType, FollowupMode, SkillFormData } from '../types';
+import { Language } from '../translations';
 
-export function buildPromptText(formData: SkillFormData): string {
+export function buildPromptText(formData: SkillFormData, lang: Language = 'my'): string {
   const task = formData.task.trim();
   const destination = formData.destination;
-  const input = formData.input.trim() || 'သင့်တော်တဲ့ input ကို အကြံပြုပေးပါ';
+  const input =
+    formData.input.trim() ||
+    (lang === 'en' ? 'Suggest appropriate inputs' : 'သင့်တော်တဲ့ input ကို အကြံပြုပေးပါ');
   const success = formData.success.trim();
+
+  if (lang === 'en') {
+    return `Please create an AI Skill.
+
+Task to perform: ${task}
+Deployment destination: ${destination}
+User inputs provided: ${input}
+Success criteria: ${success}
+
+Instructions:
+- If a critical detail is missing, ask a concise clarifying question.
+- If only minor details are missing, state reasonable assumptions and proceed.
+- Provide complete, self-contained, copyable skill files and instructions.
+- Do not assume non-existent tools, APIs, or capabilities.
+- Include practical test requests at the end to verify functionality.`;
+  }
 
   return `AI Skill တစ်ခု ဖန်တီးပေးပါ။
 
@@ -16,7 +35,27 @@ export function buildPromptText(formData: SkillFormData): string {
 လိုအပ်တဲ့အချက် အရေးကြီးစွာ ပျောက်နေရင် မေးခွန်းတိုတို မေးပါ။ အနည်းငယ်သာ ပျောက်နေရင် assumption ကို ဖော်ပြပြီး ဆက်လုပ်ပါ။ လိုအပ်တဲ့ဖိုင်တွေကို အပြည့်အစုံ ကူးယူနိုင်အောင် ထုတ်ပေးပြီး မြန်မာလို ရှင်းပြပါ။ မရှိတဲ့ tool သို့မဟုတ် capability ကို မရှိသလို မယူဆပါနဲ့။ နောက်ဆုံးမှာ လက်တွေ့စမ်းရန် test requests ထည့်ပေးပါ။`;
 }
 
-export function buildFollowupText(mode: FollowupMode, changeRequest: string = ''): string {
+export function buildFollowupText(
+  mode: FollowupMode,
+  changeRequest: string = '',
+  lang: Language = 'my'
+): string {
+  if (lang === 'en') {
+    switch (mode) {
+      case 'review':
+        return 'Please review the generated Skill. Check for unclear triggers, missing inputs, instruction contradictions, invalid tool or file assumptions, and unmet success criteria. Highlight the most critical issues first and provide the complete updated skill content. Do not claim execution test completion if only inspected as text.';
+      case 'improve': {
+        const detail =
+          changeRequest.trim() || '[Specify what you want to improve here]';
+        return `Please refine the generated Skill without altering its core objective. Specific changes requested: ${detail}. Preserve all other working parts and return the full updated content.`;
+      }
+      case 'test':
+        return 'Please design a practical test suite for this Skill. Include standard queries, incomplete inputs, ambiguous prompts, out-of-scope requests, and edge cases. Include both English and Myanmar sample inputs. For each test, provide user input and expected observable behavior.';
+      default:
+        return '';
+    }
+  }
+
   switch (mode) {
     case 'review':
       return 'အခုထုတ်ပေးထားတဲ့ Skill ကို review လုပ်ပါ။ အသုံးပြုရမည့်အချိန် မရှင်းတာ၊ input ပျောက်တာ၊ instruction ဆန့်ကျင်တာ၊ မရှိတဲ့ tool/file ကို ယူဆထားတာနဲ့ ရလဒ်စံနှုန်း မပြည့်တာတွေ စစ်ပါ။ အရေးအကြီးဆုံးပြဿနာကို အရင်ပြပြီး ပြင်ထားတဲ့ content ကို အပြည့်အစုံ ထုတ်ပေးပါ။ စာသားအဖြစ်သာ စစ်ထားတာကို execution test လုပ်ပြီးသလို မပြောပါနဲ့။';

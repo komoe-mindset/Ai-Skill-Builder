@@ -1,60 +1,44 @@
 import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
-import { DestinationType, SkillFormData } from '../types';
+import { DestinationType, SkillFormData, SPARK_SKILL_STUDIO_URL } from '../types';
+import { Language, TRANSLATIONS } from '../translations';
 import {
   Check,
   RotateCcw,
   Sparkles,
   Download,
-  BookmarkCheck,
-  Bookmark,
   CheckCircle2,
   FolderTree,
   Bot,
   HelpCircle,
+  Cpu,
+  ExternalLink,
+  Copy,
 } from 'lucide-react';
-import { downloadTextFile } from '../utils/helpers';
+import { downloadTextFile, copyToClipboard } from '../utils/helpers';
 
 interface Step4FinalCheckProps {
+  lang: Language;
   formData: SkillFormData;
   generatedPrompt: string;
   onRestart: () => void;
   onBackToReview: () => void;
-  onSaveSkill: () => void;
-  isSaved: boolean;
 }
 
-const CHECKLIST_ITEMS = [
-  {
-    id: 1,
-    title: 'Tool နှင့် File များ စစ်ဆေးခြင်း',
-    desc: 'မရှိသော tool၊ မရှိသော ဖိုင် သို့မဟုတ် မရှိသော အချက်အလက်များကို ရှိသကဲ့သို့ မရေးထားကြောင်း စစ်ဆေးပြီးပြီလား။',
-  },
-  {
-    id: 2,
-    title: 'စမ်းသပ်မှု ပွင့်လင်းမြင်သာမှု',
-    desc: 'တကယ် စမ်းသပ်ထားသော အချက်အလက်နှင့် စာသားအရသာ စစ်ဆေးထားသည်များကို ရှင်းလင်းစွာ ခွဲခြားဖော်ပြထားသလား။',
-  },
-  {
-    id: 3,
-    title: 'ဘာသာစကား ၂ မျိုး စမ်းသပ်မှု',
-    desc: 'English နှင့် မြန်မာ input ၂ မျိုးစလုံးဖြင့် မျှော်လင့်ထားသော ရလဒ်များ မှန်မှန်ကန်ကန် ရရှိကြောင်း လက်တွေ့စမ်းပြီးပြီလား။',
-  },
-];
-
 export const Step4FinalCheck: React.FC<Step4FinalCheckProps> = ({
+  lang,
   formData,
   generatedPrompt,
   onRestart,
   onBackToReview,
-  onSaveSkill,
-  isSaved,
 }) => {
+  const t = TRANSLATIONS[lang];
   const [checkedItems, setCheckedItems] = useState<Record<number, boolean>>({
     1: false,
     2: false,
     3: false,
   });
+  const [copiedForStudio, setCopiedForStudio] = useState(false);
 
   const toggleCheck = (id: number) => {
     setCheckedItems((prev) => {
@@ -73,10 +57,25 @@ export const Step4FinalCheck: React.FC<Step4FinalCheckProps> = ({
 
   const allChecked = checkedItems[1] && checkedItems[2] && checkedItems[3];
 
+  const handleCopyAndOpenStudio = async () => {
+    const textToCopy = `# AI Skill: ${formData.task}
+Destination: ${formData.destination}
+Inputs: ${formData.input || 'None'}
+Success: ${formData.success}
+
+Prompt:
+${generatedPrompt}
+`;
+    await copyToClipboard(textToCopy);
+    setCopiedForStudio(true);
+    setTimeout(() => setCopiedForStudio(false), 2500);
+    window.open(SPARK_SKILL_STUDIO_URL, '_blank', 'noopener,noreferrer');
+  };
+
   const handleExportSkill = () => {
     const content = `# AI Skill: ${formData.task}
 **Destination:** ${formData.destination}
-**Input Format:** ${formData.input || 'အဆင်ပြေရာ'}
+**Inputs:** ${formData.input || 'None'}
 **Success Criteria:** ${formData.success}
 
 ---
@@ -87,12 +86,30 @@ ${generatedPrompt}
 
 ---
 ## Verification Checklist:
-- [${checkedItems[1] ? 'x' : ' '}] Tool & File Integrity Checked
-- [${checkedItems[2] ? 'x' : ' '}] Execution vs Text Evaluation Clarified
-- [${checkedItems[3] ? 'x' : ' '}] Tested with English & Myanmar Inputs
+- [${checkedItems[1] ? 'x' : ' '}] ${t.checkItem1Title}
+- [${checkedItems[2] ? 'x' : ' '}] ${t.checkItem2Title}
+- [${checkedItems[3] ? 'x' : ' '}] ${t.checkItem3Title}
 `;
-    downloadTextFile(content, 'my-ai-skill-guide.md');
+    downloadTextFile(content, 'my-ai-skill.md');
   };
+
+  const checklist = [
+    {
+      id: 1,
+      title: t.checkItem1Title,
+      description: t.checkItem1Desc,
+    },
+    {
+      id: 2,
+      title: t.checkItem2Title,
+      description: t.checkItem2Desc,
+    },
+    {
+      id: 3,
+      title: t.checkItem3Title,
+      description: t.checkItem3Desc,
+    },
+  ];
 
   return (
     <div className="p-4 sm:p-8 space-y-6">
@@ -103,10 +120,10 @@ ${generatedPrompt}
         </div>
 
         <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight mb-2">
-          Skill ကို မသိမ်းမီ သုံးချက်စစ်ပါ
+          {t.step4Title}
         </h2>
         <p className="text-sm sm:text-base text-slate-500 max-w-lg mx-auto leading-relaxed">
-          Gem က လှလှပပ ရေးသားပေးထားသည်ထက် လက်တွေ့တွင် အမှားအယွင်းကင်းပြီး အလုပ်ဖြစ်ရန်က ပိုမိုအရေးကြီးပါသည်။
+          {t.step4Subtitle}
         </p>
       </div>
 
@@ -114,15 +131,15 @@ ${generatedPrompt}
       <div className="space-y-3">
         <div className="flex items-center justify-between px-1">
           <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
-            စစ်ဆေးရမည့် အချက်များ (နှိပ်၍ အမှန်ခြစ်ပါ)
+            {t.checklistHeader}
           </span>
           <span className="text-xs font-semibold text-blue-600">
-            {Object.values(checkedItems).filter(Boolean).length} / ၃ ပြီးစီး
+            {Object.values(checkedItems).filter(Boolean).length} / 3 {t.checklistCount}
           </span>
         </div>
 
         <div className="grid grid-cols-1 gap-2.5">
-          {CHECKLIST_ITEMS.map((item) => {
+          {checklist.map((item) => {
             const isChecked = checkedItems[item.id];
             return (
               <button
@@ -139,27 +156,30 @@ ${generatedPrompt}
                 <div
                   className={`w-6 h-6 rounded-lg flex items-center justify-center shrink-0 mt-0.5 transition-colors ${
                     isChecked
-                      ? 'bg-emerald-600 text-white'
-                      : 'border-2 border-slate-300 bg-white text-transparent'
+                      ? 'bg-emerald-600 text-white shadow-xs'
+                      : 'border-2 border-slate-300 bg-white'
                   }`}
                 >
-                  <Check className="w-4 h-4 stroke-[3]" />
+                  {isChecked && <Check className="w-4 h-4 stroke-[3]" />}
                 </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="w-5 h-5 rounded-full bg-slate-100 text-slate-700 text-xs font-bold grid place-items-center">
-                      {item.id}
-                    </span>
+
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2">
                     <strong
                       className={`text-sm sm:text-base font-bold transition-colors ${
-                        isChecked ? 'text-emerald-950 line-through decoration-emerald-500/60' : 'text-slate-800'
+                        isChecked ? 'text-emerald-950 line-through' : 'text-slate-800'
                       }`}
                     >
                       {item.title}
                     </strong>
+                    {isChecked && (
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">
+                        {t.checklistCount} ✓
+                      </span>
+                    )}
                   </div>
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed pl-7">
-                    {item.desc}
+                  <p className="text-xs text-slate-500 leading-relaxed">
+                    {item.description}
                   </p>
                 </div>
               </button>
@@ -168,72 +188,100 @@ ${generatedPrompt}
         </div>
       </div>
 
-      {/* Storage Tip Advice based on Destination */}
-      <div className="p-4 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50/40 border border-blue-200/80 text-xs sm:text-sm text-slate-700 space-y-2">
-        <div className="flex items-center gap-2 font-bold text-slate-900">
-          <Sparkles className="w-4 h-4 text-blue-600" />
-          <span>သိမ်းဆည်းနည်း လမ်းညွှန် —</span>
-        </div>
+      {/* Destination Deployment Guidance Card */}
+      <div className="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 text-xs sm:text-sm space-y-2">
+        <h4 className="font-bold text-slate-800 flex items-center gap-1.5">
+          <FolderTree className="w-4 h-4 text-blue-600" />
+          <span>{formData.destination}</span>
+        </h4>
+
         {formData.destination.includes('SKILL.md') ? (
-          <div className="flex items-start gap-2.5 text-slate-600">
-            <FolderTree className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
+          <div className="space-y-1.5 text-slate-600">
             <p>
-              <strong>Agent Skills format:</strong> Gem က ထုတ်ပေးသော folder နှင့် <code className="bg-white px-1.5 py-0.5 rounded border text-blue-700 font-mono">SKILL.md</code> ဖိုင်အမည် အတိုင်း Project repo သို့မဟုတ် AI Studio စနစ်ထဲသို့ ကူးထည့်၍ သိမ်းဆည်းပါ။
-            </p>
-          </div>
-        ) : formData.destination.includes('Gemini Gem') ? (
-          <div className="flex items-start gap-2.5 text-slate-600">
-            <Bot className="w-4 h-4 text-indigo-600 shrink-0 mt-0.5" />
-            <p>
-              <strong>Gemini Gem format:</strong> Gem က ထုတ်ပေးသော instruction စာသားကို မိမိအသုံးပြုမည့် သီးခြား Custom Gem တစ်ခု ပြုလုပ်၍ ၎င်း၏ <strong>Instructions</strong> အကွက်ထဲသို့ ထည့်သွင်းသိမ်းဆည်းပါ။
+              {lang === 'en'
+                ? 'Create a dedicated folder for your skill containing SKILL.md. Keep YAML frontmatter and tool function signatures accurate.'
+                : 'သင့် Skill အတွက် သီးသန့် Folder တစ်ခုဖွင့်၍ SKILL.md ဖိုင်ဖြင့် သိမ်းဆည်းပါ။ YAML frontmatter နှင့် Tool signatures များကို မူရင်းအတိုင်း ထားရှိပါ။'}
             </p>
           </div>
         ) : (
           <div className="flex items-start gap-2.5 text-slate-600">
             <HelpCircle className="w-4 h-4 text-slate-600 shrink-0 mt-0.5" />
             <p>
-              <strong>Portable Skill:</strong> မည်သည့် AI Model/System တွင်မဆို အလွယ်တကူ ပြန်သုံးနိုင်ရန် အောက်ပါ Download ခလုတ်ဖြင့် Markdown ဖိုင်အဖြစ် သိမ်းထားနိုင်ပါသည်။
+              {lang === 'en'
+                ? 'Portable format: Store as a standard Markdown file ready to use in any LLM or Agent runtime.'
+                : 'Portable Skill: မည်သည့် AI Model/System တွင်မဆို အလွယ်တကူ ပြန်သုံးနိုင်ရန် အောက်ပါ Download ခလုတ်ဖြင့် Markdown ဖိုင်အဖြစ် သိမ်းထားနိုင်ပါသည်။'}
             </p>
           </div>
         )}
       </div>
 
-      {/* Action Buttons */}
-      <div className="space-y-3 pt-2">
-        <div className="flex flex-col sm:flex-row items-center gap-3">
+      {/* Spark Skill Studio & Architect Bridge Section */}
+      <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-purple-50/90 via-indigo-50/40 to-white border-2 border-purple-200/90 shadow-2xs space-y-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="flex items-start gap-3">
+            <div className="p-2.5 rounded-xl bg-purple-600 text-white shadow-xs shrink-0 mt-0.5">
+              <Cpu className="w-5 h-5" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h3 className="font-black text-slate-900 text-sm sm:text-base">
+                  {t.studioBridgeTitle}
+                </h3>
+                <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-600 text-white">
+                  Studio
+                </span>
+              </div>
+              <p className="text-xs text-slate-600 mt-0.5">
+                {t.studioBridgeDesc}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex flex-col xs:flex-row items-center gap-2 pt-1">
           <button
             type="button"
-            id="save-skill-btn"
-            onClick={onSaveSkill}
-            className={`w-full sm:flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl font-bold text-sm transition min-h-[46px] cursor-pointer ${
-              isSaved
-                ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
-                : 'bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 shadow-2xs'
-            }`}
+            id="copy-and-open-studio-btn"
+            onClick={handleCopyAndOpenStudio}
+            className="w-full xs:w-auto flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-bold text-xs sm:text-sm rounded-xl shadow-xs transition active:scale-[0.98] cursor-pointer"
           >
-            {isSaved ? (
+            {copiedForStudio ? (
               <>
-                <BookmarkCheck className="w-4 h-4 text-emerald-600" />
-                <span>မှတ်တမ်းတွင် သိမ်းဆည်းထားပြီး ✓</span>
+                <Check className="w-4 h-4" />
+                <span>{t.studioBridgeCopying}</span>
               </>
             ) : (
               <>
-                <Bookmark className="w-4 h-4 text-slate-500" />
-                <span>Skill ကို မှတ်တမ်းတွင် သိမ်းရန်</span>
+                <Copy className="w-4 h-4" />
+                <span>{t.studioBridgeCopyOpen}</span>
+                <ExternalLink className="w-3.5 h-3.5 opacity-80" />
               </>
             )}
           </button>
 
-          <button
-            type="button"
-            id="export-skill-btn"
-            onClick={handleExportSkill}
-            className="w-full sm:flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl font-bold text-sm text-slate-700 bg-white hover:bg-slate-50 border border-slate-300 shadow-2xs transition min-h-[46px] cursor-pointer"
+          <a
+            href={SPARK_SKILL_STUDIO_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full xs:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-2.5 bg-white hover:bg-purple-50 text-purple-900 font-bold text-xs sm:text-sm rounded-xl border border-purple-200 transition shadow-2xs"
           >
-            <Download className="w-4 h-4 text-slate-500" />
-            <span>ဖိုင်အဖြစ် ဒေါင်းလုဒ်လုပ်မည် (.md)</span>
-          </button>
+            <span>{t.studioBridgeDirectOpen}</span>
+            <ExternalLink className="w-3.5 h-3.5 text-purple-600" />
+          </a>
         </div>
+      </div>
+
+      {/* Action Buttons (Save Skill removed as requested) */}
+      <div className="space-y-3 pt-2">
+        <button
+          type="button"
+          id="export-skill-btn"
+          onClick={handleExportSkill}
+          className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl font-bold text-sm text-slate-700 bg-white hover:bg-slate-50 border border-slate-300 shadow-2xs transition min-h-[46px] cursor-pointer"
+        >
+          <Download className="w-4 h-4 text-slate-500" />
+          <span>{t.exportMdBtn}</span>
+        </button>
 
         <div className="flex flex-col-reverse xs:flex-row items-center justify-between gap-3 pt-2 border-t border-slate-200">
           <button
@@ -241,7 +289,7 @@ ${generatedPrompt}
             onClick={onBackToReview}
             className="w-full xs:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-3 text-sm font-bold text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 rounded-xl transition min-h-[46px] cursor-pointer"
           >
-            <span>ထပ်မံ စစ်ဆေးပြင်ဆင်မည်</span>
+            <span>{t.backToReviewBtn}</span>
           </button>
 
           <button
@@ -251,7 +299,7 @@ ${generatedPrompt}
             className="w-full xs:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 active:scale-[0.98] rounded-xl shadow-md shadow-blue-600/20 transition min-h-[46px] cursor-pointer"
           >
             <RotateCcw className="w-4 h-4" />
-            <span>အသစ်တစ်ခု ထပ်မံလုပ်မည်</span>
+            <span>{t.restartBtn}</span>
           </button>
         </div>
       </div>

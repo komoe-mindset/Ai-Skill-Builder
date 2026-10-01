@@ -1,26 +1,34 @@
 import React from 'react';
 import { StepNumber } from '../types';
 import { Check, Edit3, MessageSquare, CheckCircle2, ShieldCheck } from 'lucide-react';
+import { Language, TRANSLATIONS } from '../translations';
 
 interface StepNavigationProps {
+  lang: Language;
   currentStep: StepNumber;
   maxReachedStep: number;
   onSelectStep: (step: StepNumber) => void;
 }
 
-const STEP_DATA: { number: StepNumber; title: string; shortTitle: string; icon: React.ElementType }[] = [
-  { number: 1, title: 'အလုပ်သတ်မှတ်ခြင်း', shortTitle: 'သတ်မှတ်ခြင်း', icon: Edit3 },
-  { number: 2, title: 'Gem ကို မေးခြင်း', shortTitle: 'မေးခြင်း', icon: MessageSquare },
-  { number: 3, title: 'စစ်ဆေးပြင်ဆင်ခြင်း', shortTitle: 'စစ်ဆေးခြင်း', icon: CheckCircle2 },
-  { number: 4, title: 'အပြီးသတ်စစ်ဆေးခြင်း', shortTitle: 'အပြီးသတ်', icon: ShieldCheck },
-];
-
 export const StepNavigation: React.FC<StepNavigationProps> = ({
+  lang,
   currentStep,
   maxReachedStep,
   onSelectStep,
 }) => {
+  const t = TRANSLATIONS[lang];
   const progressPercent = (currentStep / 4) * 100;
+
+  const stepTitles = [
+    t.step1Nav,
+    t.step2Nav,
+    t.step3Nav,
+    t.step4Nav,
+  ];
+
+  const fullTitles = lang === 'en'
+    ? ['Define Task', 'Send to Gem', 'Review & Refine', 'Final Check']
+    : ['အလုပ်သတ်မှတ်ခြင်း', 'Gem ကို မေးခြင်း', 'စစ်ဆေးပြင်ဆင်ခြင်း', 'အပြီးသတ်စစ်ဆေးခြင်း'];
 
   return (
     <div className="bg-white/90 backdrop-blur-md border-b border-slate-200/80 px-4 sm:px-8 py-3.5 sm:py-4">
@@ -28,14 +36,14 @@ export const StepNavigation: React.FC<StepNavigationProps> = ({
       <div className="flex items-center justify-between gap-3 text-xs sm:text-sm mb-2.5">
         <div className="flex items-center gap-2">
           <span className="font-bold text-blue-600 bg-blue-50 border border-blue-200/60 px-2 py-0.5 rounded-md">
-            အဆင့် {currentStep} / ၄
+            {lang === 'en' ? `Step ${currentStep} of 4` : `အဆင့် ${currentStep} / ၄`}
           </span>
           <span className="font-semibold text-slate-700 hidden xs:inline">
-            {STEP_DATA[currentStep - 1].title}
+            {fullTitles[currentStep - 1]}
           </span>
         </div>
         <span className="font-medium text-slate-500 text-xs">
-          ပြီးစီးမှု: {Math.round(progressPercent)}%
+          {lang === 'en' ? `Progress: ${Math.round(progressPercent)}%` : `ပြီးစီးမှု: ${Math.round(progressPercent)}%`}
         </span>
       </div>
 
@@ -53,18 +61,18 @@ export const StepNavigation: React.FC<StepNavigationProps> = ({
 
       {/* Touch-Friendly Step Buttons */}
       <div className="grid grid-cols-4 gap-1 sm:gap-2">
-        {STEP_DATA.map((step) => {
-          const isActive = currentStep === step.number;
-          const isCompleted = currentStep > step.number;
-          const isAccessible = step.number <= maxReachedStep;
-          const StepIcon = step.icon;
+        {[1, 2, 3, 4].map((num) => {
+          const stepNum = num as StepNumber;
+          const isActive = currentStep === stepNum;
+          const isCompleted = currentStep > stepNum;
+          const isAccessible = stepNum <= maxReachedStep;
 
           return (
             <button
-              key={step.number}
+              key={stepNum}
               type="button"
-              id={`step-nav-btn-${step.number}`}
-              onClick={() => isAccessible && onSelectStep(step.number)}
+              id={`step-nav-btn-${stepNum}`}
+              onClick={() => isAccessible && onSelectStep(stepNum)}
               disabled={!isAccessible}
               className={`flex items-center justify-center sm:justify-start gap-1.5 sm:gap-2 py-2 px-1.5 sm:px-3 rounded-xl transition-all duration-200 text-left min-h-[44px] ${
                 isActive
@@ -85,10 +93,10 @@ export const StepNavigation: React.FC<StepNavigationProps> = ({
                     : 'bg-slate-200 text-slate-600'
                 }`}
               >
-                {isCompleted ? <Check className="w-3 h-3 stroke-[3]" /> : step.number}
+                {isCompleted ? <Check className="w-3 h-3 stroke-[3]" /> : stepNum}
               </div>
               <span className="text-xs truncate hidden sm:inline">
-                {step.shortTitle}
+                {stepTitles[stepNum - 1]}
               </span>
             </button>
           );

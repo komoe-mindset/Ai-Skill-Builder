@@ -1,9 +1,21 @@
 import React, { useRef } from 'react';
-import { DestinationType, SkillFormData } from '../types';
-import { PRESET_TEMPLATES } from '../data/presets';
-import { ArrowRight, Sparkles, FolderArchive, Bot, Layers, X, AlertCircle } from 'lucide-react';
+import { DestinationType, SkillFormData, SPARK_SKILL_STUDIO_URL } from '../types';
+import { getPresetTemplates } from '../data/presets';
+import { Language, TRANSLATIONS } from '../translations';
+import {
+  ArrowRight,
+  Sparkles,
+  FolderArchive,
+  Bot,
+  Layers,
+  X,
+  AlertCircle,
+  ExternalLink,
+  Cpu,
+} from 'lucide-react';
 
 interface Step1TaskFormProps {
+  lang: Language;
   formData: SkillFormData;
   onChange: (data: Partial<SkillFormData>) => void;
   onSubmit: () => void;
@@ -11,11 +23,14 @@ interface Step1TaskFormProps {
 }
 
 export const Step1TaskForm: React.FC<Step1TaskFormProps> = ({
+  lang,
   formData,
   onChange,
   onSubmit,
   error,
 }) => {
+  const t = TRANSLATIONS[lang];
+  const presets = getPresetTemplates(lang);
   const taskRef = useRef<HTMLTextAreaElement>(null);
   const successRef = useRef<HTMLInputElement>(null);
 
@@ -33,10 +48,10 @@ export const Step1TaskForm: React.FC<Step1TaskFormProps> = ({
     <div className="p-4 sm:p-8">
       <div className="mb-6">
         <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight mb-1">
-          ဘယ်လို Skill လိုချင်ပါသလဲ။
+          {t.step1Title}
         </h2>
         <p className="text-sm text-slate-500">
-          English သို့မဟုတ် မြန်မာလို စိတ်ကြိုက် ဖြည့်သွင်းနိုင်ပါသည်။
+          {t.step1Subtitle}
         </p>
       </div>
 
@@ -45,11 +60,11 @@ export const Step1TaskForm: React.FC<Step1TaskFormProps> = ({
         <div className="flex items-center gap-1.5 mb-2.5">
           <Sparkles className="w-4 h-4 text-amber-500 fill-amber-500" />
           <span className="text-xs font-bold text-slate-800">
-            လက်တွေ့ဥပမာများဖြင့် စမ်းသပ်ကြည့်မည် (တစ်ချက်နှိပ်ရုံဖြင့် ဖြည့်ပေးမည်):
+            {t.step1QuickFill}:
           </span>
         </div>
         <div className="flex flex-wrap gap-1.5 sm:gap-2">
-          {PRESET_TEMPLATES.map((preset) => {
+          {presets.map((preset) => {
             const isSelected =
               formData.task === preset.data.task &&
               formData.destination === preset.data.destination;
@@ -59,7 +74,7 @@ export const Step1TaskForm: React.FC<Step1TaskFormProps> = ({
                 type="button"
                 id={`preset-btn-${preset.id}`}
                 onClick={() => handleApplyPreset(preset.data)}
-                className={`text-xs font-semibold px-2.5 py-1.5 rounded-xl border transition-all duration-150 min-h-[38px] flex items-center gap-1.5 ${
+                className={`text-xs font-semibold px-2.5 py-1.5 rounded-xl border transition-all duration-150 min-h-[38px] flex items-center gap-1.5 cursor-pointer ${
                   isSelected
                     ? 'bg-blue-600 text-white border-blue-600 shadow-xs'
                     : 'bg-white text-slate-700 hover:bg-slate-50 hover:text-blue-600 border-slate-200 shadow-2xs'
@@ -87,16 +102,16 @@ export const Step1TaskForm: React.FC<Step1TaskFormProps> = ({
               htmlFor="task-input"
               className="text-sm font-bold text-slate-800 flex items-center gap-1"
             >
-              <span>Skill က ဘာလုပ်ပေးရမလဲ။</span>
+              <span>{t.fieldTaskLabel}</span>
               <span className="text-rose-500 text-xs">*</span>
             </label>
             {formData.task && (
               <button
                 type="button"
                 onClick={() => onChange({ task: '' })}
-                className="text-xs text-slate-400 hover:text-slate-600 flex items-center gap-0.5"
+                className="text-xs text-slate-400 hover:text-slate-600 flex items-center gap-0.5 cursor-pointer"
               >
-                <X className="w-3 h-3" /> ရှင်းလင်းရန်
+                <X className="w-3 h-3" /> {t.step1Clear}
               </button>
             )}
           </div>
@@ -107,7 +122,7 @@ export const Step1TaskForm: React.FC<Step1TaskFormProps> = ({
               rows={3}
               value={formData.task}
               onChange={(e) => onChange({ task: e.target.value })}
-              placeholder="ဥပမာ — ဖောက်သည်ပေးတဲ့ အချက်အလက်ကနေ quotation တစ်စောင် ပြင်ဆင်ပေးရန်"
+              placeholder={t.fieldTaskPlaceholder}
               className="w-full px-3.5 py-2.5 text-sm sm:text-base rounded-xl border border-slate-300 focus:border-blue-600 focus:ring-3 focus:ring-blue-600/15 bg-white text-slate-800 placeholder:text-slate-400 outline-none transition resize-y min-h-[96px]"
             />
           </div>
@@ -119,7 +134,7 @@ export const Step1TaskForm: React.FC<Step1TaskFormProps> = ({
             htmlFor="destination-select"
             className="text-sm font-bold text-slate-800 flex items-center gap-1.5"
           >
-            <span>ဘယ်နေရာမှာ သုံးမလဲ။</span>
+            <span>{t.fieldDestLabel}</span>
           </label>
           <div className="relative">
             <select
@@ -131,13 +146,10 @@ export const Step1TaskForm: React.FC<Step1TaskFormProps> = ({
               className="w-full px-3.5 py-3 text-sm sm:text-base rounded-xl border border-slate-300 focus:border-blue-600 focus:ring-3 focus:ring-blue-600/15 bg-white text-slate-800 outline-none transition appearance-none cursor-pointer"
             >
               <option value="Agent Skills format (SKILL.md)">
-                Agent တစ်ခုမှာ SKILL.md အဖြစ် (Folder & Markdown)
-              </option>
-              <option value="Gemini Gem instructions">
-                Gemini Gem အဖြစ် (Custom Gem Instruction)
+                {t.destOptionSkillMd}
               </option>
               <option value="Portable skill; destination is not decided yet">
-                မဆုံးဖြတ်ရသေး — Portable Skill
+                {t.destOptionPortable}
               </option>
             </select>
             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3.5 text-slate-500">
@@ -148,16 +160,25 @@ export const Step1TaskForm: React.FC<Step1TaskFormProps> = ({
           </div>
           <div className="flex items-center gap-1 text-[11px] sm:text-xs text-slate-500 px-1 pt-0.5">
             {formData.destination.includes('SKILL.md') ? (
-              <span className="flex items-center gap-1 text-blue-700">
-                <FolderArchive className="w-3.5 h-3.5" /> Code repo / AI Studio Agent Skill အတွက် အထူးသင့်တော်သည်
-              </span>
-            ) : formData.destination.includes('Gemini Gem') ? (
-              <span className="flex items-center gap-1 text-indigo-700">
-                <Bot className="w-3.5 h-3.5" /> gemini.google.com Gems Custom Instruction အတွက် သင့်တော်သည်
-              </span>
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 p-2 rounded-xl bg-purple-50/70 border border-purple-200/80 text-[11px] sm:text-xs w-full">
+                <span className="flex items-center gap-1.5 text-purple-900 font-semibold">
+                  <FolderArchive className="w-3.5 h-3.5 text-purple-700 shrink-0" />
+                  {t.destHintSkillMd}
+                </span>
+                <a
+                  href={SPARK_SKILL_STUDIO_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 font-bold text-purple-700 hover:text-purple-950 underline underline-offset-2 shrink-0"
+                >
+                  <Cpu className="w-3 h-3 text-purple-600" />
+                  <span>{t.destHintSkillMdStudio}</span>
+                  <ExternalLink className="w-2.5 h-2.5" />
+                </a>
+              </div>
             ) : (
               <span className="flex items-center gap-1 text-slate-600">
-                <Layers className="w-3.5 h-3.5" /> မည်သည့် AI စနစ်တွင်မဆို လွတ်လပ်စွာ အသုံးပြုနိုင်သည်
+                <Layers className="w-3.5 h-3.5" /> {t.destHintPortable}
               </span>
             )}
           </div>
@@ -170,9 +191,9 @@ export const Step1TaskForm: React.FC<Step1TaskFormProps> = ({
               htmlFor="input-details"
               className="text-sm font-bold text-slate-800"
             >
-              အသုံးပြုသူက ဘာပေးမလဲ။{' '}
+              {t.fieldInputLabel}{' '}
               <span className="text-xs font-normal text-slate-400">
-                (မဖြစ်မနေ မလို)
+                {t.fieldInputOptional}
               </span>
             </label>
           </div>
@@ -181,18 +202,18 @@ export const Step1TaskForm: React.FC<Step1TaskFormProps> = ({
             type="text"
             value={formData.input}
             onChange={(e) => onChange({ input: e.target.value })}
-            placeholder="ဥပမာ — Client name, items, price, due date"
+            placeholder={t.fieldInputPlaceholder}
             className="w-full px-3.5 py-2.5 text-sm sm:text-base rounded-xl border border-slate-300 focus:border-blue-600 focus:ring-3 focus:ring-blue-600/15 bg-white text-slate-800 placeholder:text-slate-400 outline-none transition"
           />
         </div>
 
-        {/* Field 4: Success */}
+        {/* Field 4: Success Criteria */}
         <div className="space-y-1.5">
           <label
             htmlFor="success-details"
             className="text-sm font-bold text-slate-800 flex items-center gap-1"
           >
-            <span>ရလဒ်က ဘယ်လိုဖြစ်ရင် အောင်မြင်သလဲ။</span>
+            <span>{t.fieldSuccessLabel}</span>
             <span className="text-rose-500 text-xs">*</span>
           </label>
           <input
@@ -201,31 +222,27 @@ export const Step1TaskForm: React.FC<Step1TaskFormProps> = ({
             type="text"
             value={formData.success}
             onChange={(e) => onChange({ success: e.target.value })}
-            placeholder="ဥပမာ — စျေးနှုန်းမှန်ပြီး မြန်မာလို ရှင်းလင်းသော quotation"
+            placeholder={t.fieldSuccessPlaceholder}
             className="w-full px-3.5 py-2.5 text-sm sm:text-base rounded-xl border border-slate-300 focus:border-blue-600 focus:ring-3 focus:ring-blue-600/15 bg-white text-slate-800 placeholder:text-slate-400 outline-none transition"
           />
         </div>
 
-        {/* Validation Error Message */}
+        {/* Validation Error Banner */}
         {error && (
-          <div
-            id="form-error-banner"
-            role="alert"
-            className="flex items-center gap-2 p-3 text-sm text-rose-700 bg-rose-50 border border-rose-200 rounded-xl"
-          >
-            <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" />
-            <span>{error}</span>
+          <div className="p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs sm:text-sm flex items-center gap-2 animate-in fade-in duration-200">
+            <AlertCircle className="w-4 h-4 shrink-0" />
+            <span>{t.step1Error}</span>
           </div>
         )}
 
         {/* Submit Action */}
-        <div className="pt-2 flex items-center justify-end">
+        <div className="pt-2 flex justify-end">
           <button
             type="submit"
-            id="generate-prompt-btn"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm sm:text-base font-bold text-white bg-blue-600 hover:bg-blue-700 active:scale-[0.98] rounded-xl shadow-md shadow-blue-600/20 transition-all cursor-pointer min-h-[48px]"
+            id="generate-prompt-submit-btn"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 text-sm sm:text-base font-bold text-white bg-blue-600 hover:bg-blue-700 active:scale-[0.98] rounded-xl shadow-md shadow-blue-600/25 transition min-h-[48px] cursor-pointer"
           >
-            <span>Gem ကို မေးရန် စာသားထုတ်မယ်</span>
+            <span>{t.step1SubmitBtn}</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         </div>
