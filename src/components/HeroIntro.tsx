@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   ArrowRight,
   Sparkles,
@@ -9,7 +9,8 @@ import {
   Server,
   Video,
   Workflow,
-  Globe,
+  ChevronDown,
+  Info,
 } from 'lucide-react';
 import {
   WORKFLOW_AI_VIDEO_URL,
@@ -35,197 +36,168 @@ export const HeroIntro: React.FC<HeroIntroProps> = ({
   onOpenEcosystem,
 }) => {
   const t = TRANSLATIONS[lang];
+  const [showOtherTools, setShowOtherTools] = useState(false);
 
-  const quickLinks = [
+  const ecosystemLinks = [
     {
       title: 'Workflow AI Video',
       url: WORKFLOW_AI_VIDEO_URL,
       icon: Video,
-      color: 'bg-rose-50 text-rose-800 border-rose-200/90 hover:bg-rose-100',
+      color: 'bg-rose-50 text-rose-800 border-rose-200/80 hover:bg-rose-100',
       iconColor: 'text-rose-600',
+      badge: 'Video AI',
     },
     {
       title: 'Workflow AI Skill',
       url: WORKFLOW_AI_SKILL_URL,
       icon: Workflow,
-      color: 'bg-cyan-50 text-cyan-800 border-cyan-200/90 hover:bg-cyan-100',
+      color: 'bg-cyan-50 text-cyan-800 border-cyan-200/80 hover:bg-cyan-100',
       iconColor: 'text-cyan-600',
+      badge: 'Skill Flow',
     },
     {
-      title: 'Skill Studio',
+      title: 'Spark Skill Studio',
       url: SPARK_SKILL_STUDIO_URL,
       icon: Cpu,
-      color: 'bg-purple-50 text-purple-800 border-purple-200/90 hover:bg-purple-100',
+      color: 'bg-purple-50 text-purple-800 border-purple-200/80 hover:bg-purple-100',
       iconColor: 'text-purple-600',
+      badge: 'Studio',
     },
     {
       title: 'MCP Guide',
       url: MCP_GUIDE_URL,
       icon: Server,
-      color: 'bg-emerald-50 text-emerald-800 border-emerald-200/90 hover:bg-emerald-100',
+      color: 'bg-emerald-50 text-emerald-800 border-emerald-200/80 hover:bg-emerald-100',
       iconColor: 'text-emerald-600',
+      badge: 'Protocol',
     },
     {
       title: 'Spark Guide',
       url: GEMINI_SPARK_GUIDE_URL,
       icon: BookOpen,
-      color: 'bg-amber-50 text-amber-900 border-amber-200/90 hover:bg-amber-100',
+      color: 'bg-amber-50 text-amber-900 border-amber-200/80 hover:bg-amber-100',
       iconColor: 'text-amber-600',
+      badge: 'Docs',
     },
     {
       title: 'Skill Gem',
       url: GEMINI_SKILL_BUILDER_GEM_URL,
       icon: Bot,
-      color: 'bg-blue-50 text-blue-800 border-blue-200/90 hover:bg-blue-100',
+      color: 'bg-blue-50 text-blue-800 border-blue-200/80 hover:bg-blue-100',
       iconColor: 'text-blue-600',
+      badge: 'Gemini',
     },
   ];
 
   return (
-    <section className="relative overflow-hidden border-b border-slate-200/90 bg-gradient-to-br from-blue-50/80 via-white to-purple-50/50 p-5 sm:p-8">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-        {/* Left Column: Heading and description */}
-        <div className="lg:col-span-7 space-y-3.5">
-          {/* Top Tag & Neat Tidy Website Links Row */}
-          <div className="space-y-2">
-            <div className="flex items-center gap-2">
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-800 tracking-wide">
-                <Sparkles className="w-3.5 h-3.5 text-blue-600" />
-                <span>{t.heroTag}</span>
-              </div>
-              <span className="text-[11px] font-semibold text-slate-500 hidden sm:inline">
-                {lang === 'en' ? 'Ecosystem Websites & Tools:' : 'ချိတ်ဆက်ထားသော ဝဘ်ဆိုဒ်များ:'}
-              </span>
-            </div>
+    <section className="relative overflow-hidden border-b border-slate-200/80 bg-gradient-to-br from-blue-50/70 via-white to-slate-50/50 p-5 sm:p-8">
+      <div className="max-w-3xl space-y-4">
+        {/* Category Tag */}
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-100/80 text-blue-800 tracking-wide">
+          <Sparkles className="w-3.5 h-3.5 text-blue-600" />
+          <span>{t.heroTag}</span>
+        </div>
 
-            {/* Neat & Tidy Chips Grid for all 6 websites */}
-            <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
-              {quickLinks.map((item, idx) => {
-                const IconComp = item.icon;
-                return (
-                  <a
-                    key={idx}
-                    href={item.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-bold border shadow-2xs transition active:scale-[0.98] ${item.color}`}
-                    title={`${item.title} (${item.url})`}
-                  >
-                    <IconComp className={`w-3.5 h-3.5 ${item.iconColor}`} />
-                    <span>{item.title}</span>
-                    <ExternalLink className="w-2.5 h-2.5 opacity-60" />
-                  </a>
-                );
-              })}
-            </div>
-          </div>
+        {/* Clear Primary Heading */}
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 tracking-tight leading-[1.35]">
+          {t.heroTitle}
+        </h1>
 
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 tracking-tight leading-[1.35]">
-            {t.heroTitle1} <br className="hidden sm:inline" />
-            {t.heroTitle2}
-          </h1>
+        {/* Short, beginner-friendly explanation */}
+        <p className="text-sm sm:text-base text-slate-600 leading-relaxed max-w-2xl">
+          {t.heroDesc}
+        </p>
 
-          <p className="text-sm sm:text-base text-slate-600 leading-relaxed max-w-xl">
-            {t.heroDesc}
-          </p>
-
-          {/* Quick Ecosystem Hub Bar */}
-          <div className="p-2.5 sm:p-3 rounded-2xl bg-white/95 border border-purple-200/80 shadow-2xs text-xs text-slate-700 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
-            <div className="flex items-center gap-2">
-              <div className="p-1.5 rounded-lg bg-purple-100 text-purple-700">
-                <Cpu className="w-4 h-4 shrink-0" />
-              </div>
-              <span className="font-medium text-slate-700">
-                {t.heroStudioCallout}
-              </span>
-            </div>
-            <div className="flex items-center gap-2 shrink-0">
-              <a
-                href={SPARK_SKILL_STUDIO_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-bold text-purple-800 bg-purple-50 hover:bg-purple-100 rounded-lg border border-purple-200 transition"
-              >
-                <span>{t.heroStudioOpen}</span>
-                <ExternalLink className="w-3 h-3" />
-              </a>
-              {onOpenEcosystem && (
-                <button
-                  type="button"
-                  onClick={onOpenEcosystem}
-                  className="text-xs text-slate-500 hover:text-slate-800 underline underline-offset-2 font-medium cursor-pointer"
-                >
-                  {t.heroEcosystemView}
-                </button>
-              )}
-            </div>
-          </div>
-
-          <div className="pt-1 flex flex-wrap items-center gap-2">
-            <button
-              type="button"
-              id="hero-start-btn"
-              onClick={onStart}
-              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 shadow-sm shadow-blue-600/20 transition cursor-pointer"
-            >
-              <span>{t.heroStartBtn}</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
-            <button
-              type="button"
-              id="hero-templates-btn"
-              onClick={onOpenTemplates}
-              className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 shadow-2xs transition cursor-pointer"
-            >
-              <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-              <span>{t.heroTemplatesBtn}</span>
-            </button>
+        {/* Short definition of Skill */}
+        <div className="flex items-start gap-2.5 p-3 sm:p-3.5 rounded-2xl bg-amber-50/70 border border-amber-200/80 text-amber-950 text-xs sm:text-sm">
+          <Info className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+          <div>
+            <strong className="font-bold text-amber-900 block mb-0.5">
+              {t.heroSkillDefTitle}
+            </strong>
+            <span className="leading-relaxed text-amber-900/90 font-medium">
+              {t.heroSkillDef}
+            </span>
           </div>
         </div>
 
-        {/* Right Column: 3-step mini flow */}
-        <div className="lg:col-span-5 grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-2.5">
-          <div className="flex items-center gap-3 p-3 sm:p-3.5 rounded-2xl bg-white/90 border border-slate-200/90 shadow-2xs">
-            <div className="w-8 h-8 rounded-full bg-cyan-100 text-cyan-800 font-extrabold text-sm flex items-center justify-center shrink-0">
-              1
-            </div>
-            <div>
-              <strong className="block text-xs sm:text-sm font-bold text-slate-800">
-                {t.step1Mini}
-              </strong>
-              <span className="text-[11px] text-slate-500">
-                {t.step1MiniDesc}
-              </span>
-            </div>
-          </div>
+        {/* Primary and Secondary Action Buttons */}
+        <div className="pt-2 flex flex-wrap items-center gap-3">
+          <button
+            type="button"
+            id="hero-start-btn"
+            onClick={onStart}
+            className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl text-sm sm:text-base font-bold text-white bg-blue-600 hover:bg-blue-700 active:scale-[0.98] shadow-md shadow-blue-600/25 transition min-h-[48px] cursor-pointer"
+          >
+            <span>{t.heroStartBtn}</span>
+            <ArrowRight className="w-4 h-4" />
+          </button>
 
-          <div className="flex items-center gap-3 p-3 sm:p-3.5 rounded-2xl bg-white/90 border border-slate-200/90 shadow-2xs">
-            <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-800 font-extrabold text-sm flex items-center justify-center shrink-0">
-              2
-            </div>
-            <div>
-              <strong className="block text-xs sm:text-sm font-bold text-slate-800">
-                {t.step2Mini}
-              </strong>
-              <span className="text-[11px] text-slate-500">
-                {t.step2MiniDesc}
-              </span>
-            </div>
-          </div>
+          <button
+            type="button"
+            id="hero-templates-btn"
+            onClick={onOpenTemplates}
+            className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-2xl text-sm sm:text-base font-bold text-slate-700 bg-white hover:bg-slate-50 active:bg-slate-100 border border-slate-300 shadow-2xs transition min-h-[48px] cursor-pointer"
+          >
+            <Sparkles className="w-4 h-4 text-amber-500 fill-amber-500" />
+            <span>{t.heroTemplatesBtn}</span>
+          </button>
+        </div>
 
-          <div className="flex items-center gap-3 p-3 sm:p-3.5 rounded-2xl bg-white/90 border border-slate-200/90 shadow-2xs">
-            <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-800 font-extrabold text-sm flex items-center justify-center shrink-0">
-              3
+        {/* Quieter Collapsible 'Other Tools / Learn More' Area */}
+        <div className="pt-3 border-t border-slate-100">
+          <button
+            type="button"
+            onClick={() => setShowOtherTools(!showOtherTools)}
+            className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-800 transition py-1 cursor-pointer"
+          >
+            <span>{t.heroOtherTools}</span>
+            <ChevronDown
+              className={`w-3.5 h-3.5 transition-transform duration-200 ${
+                showOtherTools ? 'rotate-180' : ''
+              }`}
+            />
+          </button>
+
+          {showOtherTools && (
+            <div className="mt-2.5 p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs space-y-2.5 animate-in fade-in duration-150">
+              <p className="text-[11px] text-slate-500 leading-normal">
+                {t.heroOtherToolsDesc}
+              </p>
+
+              <div className="flex flex-wrap gap-1.5">
+                {ecosystemLinks.map((item, idx) => {
+                  const IconComp = item.icon;
+                  return (
+                    <a
+                      key={idx}
+                      href={item.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-xs font-semibold border transition ${item.color}`}
+                      title={`${item.title} — သီးခြားဝဘ်ဆိုဒ်တွင် ဖွင့်ပါမည် (${item.url})`}
+                    >
+                      <IconComp className={`w-3.5 h-3.5 ${item.iconColor}`} />
+                      <span>{item.title}</span>
+                      <ExternalLink className="w-2.5 h-2.5 opacity-60" />
+                    </a>
+                  );
+                })}
+              </div>
+
+              {onOpenEcosystem && (
+                <div className="pt-1.5 flex justify-end">
+                  <button
+                    type="button"
+                    onClick={onOpenEcosystem}
+                    className="text-xs font-bold text-blue-600 hover:text-blue-800 underline underline-offset-2"
+                  >
+                    {t.heroEcosystemView} →
+                  </button>
+                </div>
+              )}
             </div>
-            <div>
-              <strong className="block text-xs sm:text-sm font-bold text-slate-800">
-                {t.step3Mini}
-              </strong>
-              <span className="text-[11px] text-slate-500">
-                {t.step3MiniDesc}
-              </span>
-            </div>
-          </div>
+          )}
         </div>
       </div>
     </section>

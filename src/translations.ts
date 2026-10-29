@@ -23,69 +23,85 @@ export interface Translations {
 
   // Hero
   heroTag: string;
-  heroTitle1: string;
-  heroTitle2: string;
+  heroTitle: string;
   heroDesc: string;
+  heroSkillDefTitle: string;
+  heroSkillDef: string;
+  heroStartBtn: string;
+  heroTemplatesBtn: string;
+  heroOtherTools: string;
+  heroOtherToolsDesc: string;
   heroStudioCallout: string;
   heroStudioOpen: string;
   heroEcosystemView: string;
-  heroStartBtn: string;
-  heroTemplatesBtn: string;
-  step1Mini: string;
-  step1MiniDesc: string;
-  step2Mini: string;
-  step2MiniDesc: string;
-  step3Mini: string;
-  step3MiniDesc: string;
 
   // Step Nav
   step1Nav: string;
   step2Nav: string;
   step3Nav: string;
   step4Nav: string;
+  stepProgressLabel: string;
+  stepStatusPreparing: string;
+  stepStatusCompleted: string;
 
   // Step 1
   step1Title: string;
   step1Subtitle: string;
-  step1QuickFill: string;
+  step1CurrentGuide: string;
+  step1PresetsPrompt: string;
   fieldTaskLabel: string;
+  fieldTaskHelper: string;
   fieldTaskPlaceholder: string;
+  fieldTaskError: string;
   fieldDestLabel: string;
-  fieldInputLabel: string;
-  fieldInputOptional: string;
-  fieldInputPlaceholder: string;
-  fieldSuccessLabel: string;
-  fieldSuccessPlaceholder: string;
+  fieldDestHelp: string;
   destOptionSkillMd: string;
   destOptionPortable: string;
-  destHintSkillMd: string;
-  destHintSkillMdStudio: string;
-  destHintPortable: string;
-  step1Clear: string;
+  destExplanationSkillMd: string;
+  destExplanationPortable: string;
+  fieldInputLabel: string;
+  fieldInputOptional: string;
+  fieldInputHelper: string;
+  fieldInputPlaceholder: string;
+  fieldSuccessLabel: string;
+  fieldSuccessHelper: string;
+  fieldSuccessPlaceholder: string;
+  fieldSuccessError: string;
   step1SubmitBtn: string;
-  step1Error: string;
+  step1SubmitHint: string;
+  step1Clear: string;
+  presetAppliedSuccess: string;
+  presetConfirmOverwrite: string;
 
   // Step 2
   step2Title: string;
   step2Subtitle: string;
+  step2CurrentGuide: string;
+  step2PromptLabel: string;
+  step2PromptNotice: string;
+  step2HandoffTitle: string;
+  step2Handoff1: string;
+  step2Handoff2: string;
+  step2Handoff3: string;
+  step2Handoff4: string;
+  step2Handoff5: string;
   step2ToolbarTitle: string;
   step2Words: string;
   step2Chars: string;
-  step2Download: string;
-  step2OpenGem: string;
-  step2CopyPrompt: string;
+  step2DownloadPrompt: string;
+  step2CopyBtn: string;
   step2Copied: string;
-  step2CopyAndOpenGem: string;
-  step2CopySuccess: string;
-  step2CopyHint: string;
-  step2TipTitle: string;
-  step2TipDesc: string;
+  step2OpenGemBtn: string;
+  step2CopyAndOpenGemBtn: string;
   step2PrevBtn: string;
   step2NextBtn: string;
+  step2ClipboardFallback: string;
 
   // Step 3
   step3Title: string;
   step3Subtitle: string;
+  step3CurrentGuide: string;
+  step3Intro: string;
   modeReviewTitle: string;
   modeReviewDesc: string;
   modeImproveTitle: string;
@@ -107,6 +123,14 @@ export interface Translations {
   // Step 4
   step4Title: string;
   step4Subtitle: string;
+  step4CurrentGuide: string;
+  pasteSkillHeader: string;
+  pasteSkillHelp: string;
+  pasteSkillPlaceholder: string;
+  validatorTitle: string;
+  validatorSuccess: string;
+  validatorMissingFrontmatter: string;
+  validatorNoContent: string;
   checklistHeader: string;
   checklistCount: string;
   checkItem1Title: string;
@@ -115,12 +139,19 @@ export interface Translations {
   checkItem2Desc: string;
   checkItem3Title: string;
   checkItem3Desc: string;
+  finalGuidanceTitle: string;
+  finalGuidance1: string;
+  finalGuidance2: string;
+  finalGuidance3: string;
+  honestDisclosureTitle: string;
+  honestDisclosureText: string;
   studioBridgeTitle: string;
   studioBridgeDesc: string;
   studioBridgeCopyOpen: string;
   studioBridgeCopying: string;
   studioBridgeDirectOpen: string;
-  exportMdBtn: string;
+  downloadSkillMdBtn: string;
+  downloadChecklistLogBtn: string;
   backToReviewBtn: string;
   restartBtn: string;
 
@@ -147,14 +178,14 @@ export const TRANSLATIONS: Record<Language, Translations> = {
   my: {
     appName: 'Skill Builder Guide',
     appTagline: 'Gemini Skill Builder Gem ဖြင့် AI Skill ဖန်တီးနည်း လမ်းညွှန်',
-    appSubtitle: 'Spark Ecosystem & Gemini Skill Builder လမ်းညွှန်',
+    appSubtitle: 'Gemini Skill Builder အထောက်အကူပြု လမ်းညွှန် companion',
     langToggle: 'မြန်မာ',
     sparkSuite: 'Spark Suite',
     templates: 'ပုံစံများ',
     templatesDesc: 'အသင့်သုံး Skill ပုံစံများ ရွေးချယ်ရန်',
     help: 'အသုံးပြုနည်း',
     reset: 'ပြန်လည်စတင်ရန်',
-    studioBtn: 'Skill Studio & Architect',
+    studioBtn: 'Skill Studio',
     gemBtn: 'Skill Builder Gem',
     sparkGuideBtn: 'Spark Guide',
     mcpGuideBtn: 'MCP Guide',
@@ -166,140 +197,193 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     categoryGuides: 'Guides & Documentation',
 
     // Hero
-    heroTag: 'Spark Suite လမ်းညွှန်',
-    heroTitle1: 'AI Skill တစ်ခု',
-    heroTitle2: 'အမြန်ဖန်တီးမည်',
+    heroTag: 'AI Skill ဖန်တီးနည်း လမ်းညွှန်',
+    heroTitle: 'AI Skill တစ်ခုကို အဆင့်လိုက် ဖန်တီးပါ',
     heroDesc:
-      'အကွက်လေးခု ဖြည့်ပါ။ Gemini Skill Builder Gem နှင့် Spark Skill Studio & Architect တို့တွင် တိုက်ရိုက်အသုံးပြုနိုင်မည့် မူကြမ်းနှင့် စစ်ဆေးချက်များကို ဤ Companion က စနစ်တကျ ပြင်ဆင်ပေးမည်ဖြစ်ပါသည်။',
+      'သင်လုပ်ချင်တဲ့အလုပ်ကို ဖြည့်ပါ။ ဒီ website က Gemini ထဲမှာ အသုံးပြုရန် prompt ကို ပြင်ဆင်ပေးပါမယ်။ ထို့နောက် ရရှိလာသော Skill ကို စစ်ဆေးပြီး သိမ်းဆည်းနိုင်ပါတယ်။',
+    heroSkillDefTitle: 'Skill ဆိုတာ ဘာလဲ။',
+    heroSkillDef:
+      'Skill ဆိုတာ AI ကို အလုပ်တစ်ခု ဘယ်လိုလုပ်ရမလဲဆိုတာ ညွှန်ပြထားတဲ့ လမ်းညွှန်ချက် ဖြစ်ပါတယ်။',
+    heroStartBtn: 'Skill စတင်ဖန်တီးမည်',
+    heroTemplatesBtn: 'ဥပမာတစ်ခုဖြင့် စတင်မည်',
+    heroOtherTools: 'ပိုမိုသိရှိရန် & အခြားကိရိယာများ',
+    heroOtherToolsDesc:
+      'သီးခြားဝဘ်ဆိုဒ်အသစ်တွင် ပွင့်မည့် အထောက်အကူပြု ကိရိယာများ (လိုအပ်မှသာ ဖွင့်သုံးနိုင်ပါသည်)',
     heroStudioCallout:
-      'အဆင့်မြင့် Agent Architecture အတွက် Spark Skill Studio & Architect Web App ကို သုံးနိုင်ပါသည်',
+      'အဆင့်မြင့် Visual Multi-tool Architecture လိုအပ်ပါက Spark Skill Studio ကို အသုံးပြုနိုင်ပါသည် (ရွေးချယ်နိုင်သည်)',
     heroStudioOpen: 'Studio ဖွင့်မည်',
     heroEcosystemView: 'ကိရိယာစုံကြည့်ရန်',
-    heroStartBtn: 'စတင်ဖန်တီးမည်',
-    heroTemplatesBtn: 'အသင့်သုံး ပုံစံများ ရွေးမည်',
-    step1Mini: 'အလုပ်ကို ရှင်းပြ',
-    step1MiniDesc: 'လိုချင်သည့် AI လုပ်ဆောင်ချက်ကို ဖော်ပြပါ',
-    step2Mini: 'Gem ထဲ ကူးထည့်',
-    step2MiniDesc: 'ထုတ်ပေးသော စာသားကို Gem သို့ ပို့ပါ',
-    step3Mini: 'စစ်ပြီး ပြင်ဆင်',
-    step3MiniDesc: 'Review, Improve & Test စစ်ဆေးပါ',
 
     // Step Nav
-    step1Nav: '၁။ အလုပ်သတ်မှတ်',
-    step2Nav: '၂။ Gem သို့ပို့',
-    step3Nav: '၃။ စစ်ပြီးပြင်',
-    step4Nav: '၄။ အပြီးသတ်စစ်',
+    step1Nav: 'အလုပ်ကို ပြောပြပါ',
+    step2Nav: 'Gemini သို့ ပို့ပါ',
+    step3Nav: 'Skill ကို စစ်ဆေးပါ',
+    step4Nav: 'စမ်းသပ်ပြီး သိမ်းပါ',
+    stepProgressLabel: 'ပြီးစီးမှု',
+    stepStatusPreparing: 'စတင်ပြင်ဆင်ဆဲ',
+    stepStatusCompleted: 'ပြီးစီးပါပြီ',
 
     // Step 1
-    step1Title: 'Skill ၏ အချက်အလက်များ ဖြည့်ပါ',
+    step1Title: 'အဆင့် ၁ — အလုပ်ကို ပြောပြပါ',
     step1Subtitle:
-      'အောက်ပါအကွက် (၄) ခုကို ဖြည့်ပေးပါ။ မဖြစ်မနေ လိုအပ်သောအချက် ၂ ချက်ကို ကြယ်နီ (*) ပြထားပါသည်။',
-    step1QuickFill: 'အသင့်သုံး နမူနာဖြင့် ဖြည့်မည်',
-    fieldTaskLabel: 'Skill က ဘာလုပ်ပေးရမလဲ။',
+      'AI ကို လုပ်စေချင်သောအလုပ်နှင့် လိုချင်သောရလဒ်ကို အောက်တွင် ဖြည့်ပါ။ မဖြစ်မနေ လိုအပ်သောအချက် ၂ ချက်ကို ကြယ်နီ (*) ပြထားပါသည်။',
+    step1CurrentGuide:
+      'လုပ်စေချင်သော အလုပ်အကြောင်းကို အောက်ပါအကွက်များတွင် ရေးသားပါ။',
+    step1PresetsPrompt:
+      'ဘယ်လိုရေးရမလဲ မသိသေးဘူးလား။ အောက်က နမူနာတစ်ခုကို ရွေးပြီး စတင်နိုင်ပါတယ်။',
+    fieldTaskLabel: 'AI ကို ဘာအလုပ် လုပ်ခိုင်းချင်ပါသလဲ။',
+    fieldTaskHelper:
+      'လုပ်စေချင်တဲ့အလုပ်ကို တစ်ကြောင်း သို့မဟုတ် နှစ်ကြောင်းဖြင့် ရေးပါ။',
     fieldTaskPlaceholder:
-      'ဥပမာ — ဖောက်သည်ပေးတဲ့ အချက်အလက်ကနေ quotation တစ်စောင် ပြင်ဆင်ပေးရန်',
-    fieldDestLabel: 'ဘယ်နေရာမှာ သုံးမလဲ။',
-    fieldInputLabel: 'အသုံးပြုသူက ဘာပေးမလဲ။',
-    fieldInputOptional: '(မဖြစ်မနေ မလို)',
-    fieldInputPlaceholder: 'ဥပမာ — ပစ္စည်းအမည်၊ စျေးနှုန်း၊ အရေအတွက်',
-    fieldSuccessLabel: 'အောင်မြင်တဲ့ရလဒ်က ဘာဖြစ်မလဲ။',
+      'ဥပမာ — အစည်းအဝေးမှတ်စုတွေကို အကျဉ်းချုပ်ပြီး ဆက်လုပ်ရန်အချက်များ ထုတ်ပေးပါ။',
+    fieldTaskError: 'ဆက်လုပ်ရန် AI ကို လုပ်စေချင်သောအလုပ်ကို အရင်ရေးပါ။',
+    fieldDestLabel: 'ဒီ Skill ကို ဘယ်နေရာမှာ သုံးချင်ပါသလဲ။',
+    fieldDestHelp: 'မသေချာသေးရင် လက်ရှိရွေးထားတဲ့ အဖြေကို ထားနိုင်ပါတယ်။',
+    destOptionSkillMd: 'Agent Skills format (SKILL.md folder ပုံစံ)',
+    destOptionPortable: 'Portable skill (နေရာတိုင်းသုံး စာသားပုံစံ)',
+    destExplanationSkillMd:
+      'SKILL.md: AI Agents များ (Claude, Codex, Antigravity စသည်) တွင် တိုက်ရိုက်ထည့်သွင်းအသုံးပြုနိုင်ရန် ဖန်တီးထားသော စံ standard folder/file ပုံစံဖြစ်ပါသည်။ (AI စနစ်တိုင်းတွင် တပ်ဆင်ပုံ မတူညီနိုင်ပါ)',
+    destExplanationPortable:
+      'Portable Skill: သီးခြား format မလိုဘဲ မည်သည့် AI chat သို့မဟုတ် model တွင်မဆို စာသားအဖြစ် ကူးယူအသုံးပြုနိုင်သော ပုံစံဖြစ်ပါသည်။',
+    fieldInputLabel: 'AI ကို ဘယ်လိုအချက်အလက် ပေးမလဲ။',
+    fieldInputOptional: '(မသိသေးလျှင် မဖြည့်ဘဲ ဆက်လုပ်နိုင်ပါတယ်)',
+    fieldInputHelper:
+      'AI က အလုပ်လုပ်ရန် သင်ထည့်ပေးမည့် စာရွက်စာတမ်း သို့မဟုတ် အချက်အလက်များ',
+    fieldInputPlaceholder:
+      'ဥပမာ — အစည်းအဝေးမှတ်စု၊ ဆွေးနွေးထားသော အကြောင်းအရာများ',
+    fieldSuccessLabel: 'AI က ဘယ်လိုရလဒ် ပြန်ပေးစေချင်ပါသလဲ။',
+    fieldSuccessHelper: 'နောက်ဆုံးရလဒ်မှာ ဘာတွေ ပါစေချင်သလဲဆိုတာ ရေးပါ။',
     fieldSuccessPlaceholder:
-      'ဥပမာ — ရှင်းလင်းပြတ်သားပြီး တွက်ချက်မှုမှန်ကန်သော quotation စာရွက်စာတမ်း',
-    destOptionSkillMd: 'Agent တစ်ခုမှာ SKILL.md အဖြစ် (Folder & Markdown)',
-    destOptionPortable: 'မဆုံးဖြတ်ရသေး — Portable Skill',
-    destHintSkillMd: 'Code repo / AI Studio Agent Skill အတွက် အထူးသင့်တော်သည်',
-    destHintSkillMdStudio: 'Spark Skill Studio တွင် Visual Architecture ဆောက်နိုင်သည်',
-    destHintPortable: 'မည်သည့် AI စနစ်တွင်မဆို လွတ်လပ်စွာ အသုံးပြုနိုင်သည်',
-    step1Clear: 'ရှင်းလင်းရန်',
-    step1SubmitBtn: 'Gem ကို မေးရန် စာသားထုတ်မည်',
-    step1Error: 'Skill ရဲ့ အလုပ်နဲ့ အောင်မြင်ရလဒ်ကို ဖြည့်ပေးပါ။',
+      'ဥပမာ — အကျဉ်းချုပ်၊ ဆုံးဖြတ်ချက်များနှင့် ဆက်လုပ်ရန်အချက်များ ပါဝင်ပါစေ။',
+    fieldSuccessError: 'ဆက်လုပ်ရန် သင်လိုချင်သော ရလဒ်ကို အရင်ရေးပါ။',
+    step1SubmitBtn: 'Gemini အတွက် Prompt ပြင်ဆင်မည်',
+    step1SubmitHint:
+      'နောက်တစ်ဆင့်တွင် Prompt ကို ကူးယူပြီး Gemini Gem ထဲသို့ ထည့်သွင်းရပါမည်။',
+    step1Clear: 'ဖျက်မည်',
+    presetAppliedSuccess: 'နမူနာအချက်အလက် ဖြည့်ပြီးပါပြီ။ လိုအပ်သလို ပြင်နိုင်ပါတယ်။',
+    presetConfirmOverwrite:
+      'လက်ရှိ ရေးထားသောအချက်အလက်များကို ရွေးချယ်ထားသော နမူနာဖြင့် အစားထိုးမလား။',
 
     // Step 2
-    step2Title: 'ဒီစာသားကို Gem ထဲ ကူးထည့်ပါ',
+    step2Title: 'အဆင့် ၂ — Gemini သို့ ပို့ပါ',
     step2Subtitle:
-      'Gem က မေးခွန်းပြန်မေးရင် သိသလောက်ဖြေပါ။ မသိတာကို “မသတ်မှတ်ရသေး” လို့ ပြောလို့ရပါတယ်။',
-    step2ToolbarTitle: 'Gemini Skill Builder Prompt',
-    step2Words: 'စကားလုံး',
-    step2Chars: 'စာလုံး',
-    step2Download: 'သိမ်းရန်',
-    step2OpenGem: 'Skill Builder Gem ဖွင့်ရန်',
-    step2CopyPrompt: 'စာသားကူးရန်',
-    step2Copied: 'ကူးပြီးပါပြီ',
-    step2CopyAndOpenGem: 'ကူးယူပြီး Gem ဖွင့်မည်',
-    step2CopySuccess: 'Clipboard သို့ အောင်မြင်စွာ ကူးယူပြီးပါပြီ ✓',
-    step2CopyHint: 'ကလစ်တစ်ချက်နှိပ်ရုံဖြင့် စာသားတစ်ခုလုံးကို ကူးယူပါ',
-    step2TipTitle: 'အရေးကြီး သတိပြုရန် —',
-    step2TipDesc:
-      'Gem က ထုတ်ပေးတဲ့ Skill ကို သေချာဖတ်ပါ။ ဖိုင်အမည်၊ code နဲ့ YAML ဖွဲ့စည်းပုံများကို မပြောင်းလဲဘဲ မြန်မာလို ရှင်းပြချက်များကိုသာ သေချာဖတ်ရှုဆန်းစစ်ပါ။',
-    step2PrevBtn: 'ပြန်ပြင်မည်',
-    step2NextBtn: 'Gem အဖြေ ရပြီ (ဆက်သွားမည်)',
+      'ပြင်ဆင်ထားသော Prompt ကို ကူးယူပြီး Gemini Skill Builder Gem ထဲတွင် ထည့်သွင်းမေးမြန်းပါ။',
+    step2CurrentGuide:
+      'အောက်ပါ Prompt ကို ကူးယူပြီး Gemini Gem ထဲသို့ ထည့်သွင်း၍ စကားစတင်မေးမြန်းပါ။',
+    step2PromptLabel: 'Gemini သို့ ပို့ရန် Prompt (Intermediate Prompt)',
+    step2PromptNotice:
+      'သတိပြုရန် — ဤစာသားသည် Gemini ထံ ပို့မည့် စကားစတင်မေးမြန်းရန် Prompt ဖြစ်ပြီး နောက်ဆုံးထွက်ရှိလာမည့် SKILL.md ဖိုင် မဟုတ်သေးပါ။',
+    step2HandoffTitle: 'Gemini တွင် လုပ်ဆောင်ရမည့် အဆင့်များ:',
+    step2Handoff1: '၁။ အောက်ပါ Prompt ကို ကူးယူပါ။',
+    step2Handoff2: '၂။ Gemini Skill Builder Gem ကို ဖွင့်ပါ။ (သီးခြား tab အသစ်တွင် ပွင့်ပါမည်)',
+    step2Handoff3: '၃။ Prompt ကို Gemini ထဲတွင် ကူးထည့် (Paste) ပြီး ပို့ပါ။',
+    step2Handoff4: '၄။ Gemini မှ ရရှိလာသော Skill ကို ဖတ်ရှုစစ်ဆေးပါ။',
+    step2Handoff5: '၅။ လိုအပ်ပါက နောက်တစ်ဆင့်ရှိ စစ်ဆေးချက်များဖြင့် စမ်းသပ်ပါ။',
+    step2ToolbarTitle: 'ပြင်ဆင်ပြီး Prompt',
+    step2Words: 'လုံး',
+    step2Chars: 'လုံးရေ',
+    step2DownloadPrompt: 'Prompt ဒေါင်းလုဒ်',
+    step2CopyBtn: 'Prompt ကို ကူးယူမည်',
+    step2Copied: 'ကူးယူပြီးပါပြီ ✓',
+    step2OpenGemBtn: 'Gemini Skill Builder Gem ဖွင့်မည် ↗',
+    step2CopyAndOpenGemBtn: 'ကူးယူပြီး Gem ဖွင့်မည် ↗',
+    step2PrevBtn: 'အဆင့် ၁ သို့ ပြန်သွားမည်',
+    step2NextBtn: 'စစ်ဆေးရန် နောက်တစ်ဆင့်သို့',
+    step2ClipboardFallback:
+      'Browser ကန့်သတ်ချက်ကြောင့် အလိုအလျောက် မကူးယူနိုင်ပါက အထက်ပါ စာသားကွက်ထဲရှိ စာများကို ဖိ၍ select all လုပ်ကာ ကူးယူ (Copy) နိုင်ပါသည်။',
 
     // Step 3
-    step3Title: 'အခု ဘာဆက်လုပ်ချင်ပါသလဲ။',
+    step3Title: 'အဆင့် ၃ — Skill ကို စစ်ဆေးပါ',
     step3Subtitle:
-      'တစ်ခုရွေးပါ။ Gem ကို ဆက်မေးရမည့် စာသား အလိုအလျောက် ထွက်ပေါ်လာပါမည်။',
-    modeReviewTitle: 'အရည်အသွေးစစ်မည်',
+      'Gemini ထံမှ ရရှိလာသော အဖြေကို သုံးသပ်ပြီး လိုအပ်ပါက ထပ်မံပြင်ဆင်ခိုင်းနိုင်ပါသည်။',
+    step3CurrentGuide:
+      'Gemini ၏ အဖြေကို ဖတ်ရှုပြီး လိုအပ်ပါက ပြင်ဆင်ရန် Follow-up Prompt ထုတ်ယူပါ။',
+    step3Intro:
+      'Gemini က Skill မူကြမ်း ထုတ်ပေးပြီးပါက စစ်ဆေးရန် (Review)၊ ပြင်ဆင်ရန် (Improve) သို့မဟုတ် စမ်းသပ်ရန် (Test) အောက်ပါ မေးခွန်းစာသားများကို ကူးယူပြီး Gem ထဲတွင် ဆက်လက်မေးမြန်းနိုင်ပါသည်။',
+    modeReviewTitle: 'စစ်ဆေးချက် မေးခွန်း',
     modeReviewDesc:
-      'လိုအပ်ချက်များ၊ ပျောက်နေသောအချက်များ နှင့် Tool အမှားများကို စစ်ဆေးခိုင်းပါ',
-    modeImproveTitle: 'လိုသလို ပြင်မည်',
+      'Input ပျောက်ဆုံးမှု၊ ရလဒ်စံနှုန်းနှင့် instruction ဆန့်ကျင်မှုများကို Gemini အား စစ်ဆေးခိုင်းရန်',
+    modeImproveTitle: 'ထပ်မံ ပြင်ဆင်ခိုင်းရန်',
     modeImproveDesc:
-      'စိတ်ကြိုက် အချက်အလက်များ ထပ်ဖြည့်ခိုင်းပါ သို့မဟုတ် ပုံစံပြောင်းခိုင်းပါ',
-    modeTestTitle: 'လက်တွေ့ စမ်းသပ်မည်',
+      'ဖော်ပြချက်တိုစေရန်၊ မြန်မာ/အင်္ဂလိပ် နှစ်မျိုးစလုံးပါစေရန် စသည်တို့ကို သီးသန့် ညွှန်ကြားရန်',
+    modeTestTitle: 'စမ်းသပ်မှု ပြင်ဆင်ရန်',
     modeTestDesc:
-      'Test cases များနှင့် စမ်းသပ်မည့် Input များကို ပြင်ဆင်ခိုင်းပါ',
-    improveLabel: 'ဘာပြင်ချင်ပါသလဲ။ (လိုချင်သည့်အချက်ကို အောက်တွင်ရေးပါ)',
+      'ပုံမှန် request များနှင့် edge case များကို စမ်းသပ်နိုင်မည့် test suite ထုတ်ခိုင်းရန်',
+    improveLabel: 'ပြင်ဆင်လိုသော အချက်အလက်များ (ရွေးချယ်နိုင်သည်):',
     improvePlaceholder:
-      'ဥပမာ — error ဖြစ်လာရင် ဖြေရှင်းမယ့်နည်းလမ်း အဆင့်ဆင့် ထည့်ပေးပါ',
-    quickSuggestionsTitle: 'အမြန်ရွေးချယ်စရာများ:',
-    promptGeneratedForMode: 'Gem သို့ ပေးပို့ရမည့် Follow-up စာသား:',
-    editPromptBtn: 'စာသားကိုယ်တိုင် ပြင်မည်',
-    editingPromptBadge: 'ကိုယ်တိုင် စာသားပြင်နေသည်',
-    step3CopyPrompt: 'စာသားကူးရန်',
-    step3Copied: 'ကူးပြီးပါပြီ',
-    step3CopyAndOpenGem: 'ကူးယူပြီး Gem သို့ သွားမည်',
-    step3PrevBtn: 'မူလ Prompt သို့',
-    step3NextBtn: 'စစ်ဆေးချက်ပြီးပြီ (အပြီးသတ်မည်)',
+      'ဥပမာ — မြန်မာလို ပိုမိုရှင်းလင်းစွာ ရေးပေးပါ၊ စာရင်းဇယား table ပုံစံဖြင့် ထုတ်ပေးပါ...',
+    quickSuggestionsTitle: 'အသုံးများသော အကြံပြုချက်များ:',
+    promptGeneratedForMode: 'Gemini ထံ ဆက်လက်ပို့ရန် မေးခွန်းစာသား:',
+    editPromptBtn: 'စာသား ပြင်ဆင်မည်',
+    editingPromptBadge: 'တည်းဖြတ်နေသည်',
+    step3CopyPrompt: 'Follow-up Prompt ကူးယူမည်',
+    step3Copied: 'ကူးယူပြီးပါပြီ ✓',
+    step3CopyAndOpenGem: 'ကူးယူပြီး Gem သို့ သွားမည် ↗',
+    step3PrevBtn: 'Prompt ကြည့်ရန် နောက်သို့',
+    step3NextBtn: 'စမ်းသပ်ပြီး သိမ်းရန် နောက်တစ်ဆင့်သို့',
 
     // Step 4
-    step4Title: 'Skill ကို အသုံးမပြုမီ သုံးချက်စစ်ပါ',
+    step4Title: 'အဆင့် ၄ — စမ်းသပ်ပြီး သိမ်းပါ',
     step4Subtitle:
-      'Gem က လှလှပပ ရေးသားပေးထားသည်ထက် လက်တွေ့တွင် အမှားအယွင်းကင်းပြီး အလုပ်ဖြစ်ရန်က ပိုမိုအရေးကြီးပါသည်။',
-    checklistHeader: 'စစ်ဆေးရမည့် အချက်များ (နှိပ်၍ အမှန်ခြစ်ပါ)',
-    checklistCount: 'ပြီးစီး',
-    checkItem1Title: 'Tool နှင့် File များ စစ်ဆေးခြင်း',
+      'Gemini ထံမှ နောက်ဆုံးရရှိသော Skill ကို စစ်ဆေးပြီး SKILL.md ဖိုင်အဖြစ် သိမ်းဆည်းပါ။',
+    step4CurrentGuide:
+      'Gemini မှ ရရှိလာသော Skill ကို စစ်ဆေးပြီး SKILL.md အဖြစ် သိမ်းဆည်းနိုင်ပါသည်။',
+    pasteSkillHeader: 'Gemini မှ ရရှိလာသော Skill စာသား (ဒီနေရာတွင် ကူးထည့်ပါ):',
+    pasteSkillHelp:
+      'Gemini ထဲမှ ထွက်လာသော အပြီးသတ် SKILL.md စာသားကို ဤနေရာတွင် ကူးထည့်ပါက စံချိန်မီမမီ စစ်ဆေးပေးပြီး SKILL.md ဖိုင်အဖြစ် တိုက်ရိုက် ဒေါင်းလုဒ်ဆွဲနိုင်ပါမည်။',
+    pasteSkillPlaceholder:
+      'Gemini ထံမှ ရရှိသော Skill စာသား (ဥပမာ --- name: ... description: ... အပြည့်အစုံ) ကို ဒီနေရာတွင် Paste လုပ်ပါ...',
+    validatorTitle: 'Agent Skills (SKILL.md) စံစစ်ဆေးချက်:',
+    validatorSuccess:
+      'YAML frontmatter (name, description) နှင့် ညွှန်ကြားချက်များ ပြည့်စုံမှန်ကန်ပါသည်။',
+    validatorMissingFrontmatter:
+      'သတိပြုရန် — စံချိန်မီ Agent Skill ဖြစ်ရန် ထိပ်ဆုံးတွင် YAML frontmatter (--- name: ... description: ... ---) ပါဝင်ရန် လိုအပ်ပါသည်။',
+    validatorNoContent:
+      'Gemini မှ ရရှိလာသော Skill စာသားကို အထက်ပါအကွက်တွင် ကူးထည့်ပေးပါ။',
+    checklistHeader: 'အတည်ပြု စစ်ဆေးချက်များ:',
+    checklistCount: 'ချက် စစ်ပြီး',
+    checkItem1Title: '၁။ အဓိကရည်ရွယ်ချက် ပြည့်စုံမှု',
     checkItem1Desc:
-      'တကယ်ရှိသော tools/files များကိုသာ သုံးထားသလား။ မရှိသော API/Library များကို ထင်ရာစိုင်း ဖန်တီးထားခြင်း မရှိစေရပါ။',
-    checkItem2Title: 'စာသားစစ်ဆေးမှု နှင့် လက်တွေ့အလုပ်လုပ်မှု ခွဲခြားခြင်း',
+      'Gemini ထုတ်ပေးသော Skill သည် မိမိလိုချင်သော task ကို တိကျစွာ လုပ်ဆောင်နိုင်ခြင်း ရှိမရှိ စစ်ဆေးပြီးပါပြီ။',
+    checkItem2Title: '၂။ မရှိသော tool များ မပါဝင်မှု',
     checkItem2Desc:
-      'Prompt စာသားကို ဖတ်ရှုစစ်ဆေးရုံမျှဖြင့် execution test အောင်မြင်ပြီးသလို မထင်မှတ်ပါနှင့်။',
-    checkItem3Title: 'ဘာသာစကား ၂ မျိုး စမ်းသပ်ခြင်း',
+      'တကယ်မရှိသော API သို့မဟုတ် ဖိုင်များကို ထည့်မတွက်ထားဘဲ သဘာဝကျမှု ရှိမရှိ စစ်ဆေးပြီးပါပြီ။',
+    checkItem3Title: '၃။ စမ်းသပ်မှု နမူနာဖြင့် စမ်းသပ်ပြီးမှု',
     checkItem3Desc:
-      'English Input နှင့် မြန်မာ Input နှစ်မျိုးစလုံးဖြင့် စမ်းသပ်ပါ။ ဘာသာပြန်လွဲမှားမှု မရှိစေရန် စစ်ဆေးပါ။',
-    studioBridgeTitle: 'Spark Skill Studio & Architect တွင် ဆက်လက်တည်ဆောက်မည်',
+      'အနည်းဆုံး လက်တွေ့ input နမူနာတစ်ခုဖြင့် Gemini ထဲတွင် စမ်းသပ်ပြီး အဖြေမှန်ထွက်သည်ကို အတည်ပြုပြီးပါပြီ။',
+    finalGuidanceTitle: 'နောက်ဆုံး လိုက်နာရမည့် လမ်းညွှန်ချက် (၃) ချက်:',
+    finalGuidance1: '၁။ SKILL.md ထဲရှိ ညွှန်ကြားချက်များကို အရင်စစ်ဆေးပါ။',
+    finalGuidance2: '၂။ သင်အသုံးပြုမည့် AI Agent ၏ Skill တပ်ဆင်နည်းကို လိုက်နာပါ။',
+    finalGuidance3: '၃။ ဥပမာတစ်ခုဖြင့် စမ်းသပ်ပြီး လိုအပ်သလို ပြင်ဆင်ပါ။',
+    honestDisclosureTitle: 'အရေးကြီးသော မှတ်ချက်:',
+    honestDisclosureText:
+      'ဖိုင်ဒေါင်းလုဒ်ဆွဲခြင်းသည် ကွန်ပျူတာထဲသို့ ဖိုင်သိမ်းဆည်းခြင်းသာ ဖြစ်ပြီး AI Agent ထဲသို့ အလိုအလျောက် install လုပ်ပေးခြင်း မဟုတ်ပါ။ သက်ဆိုင်ရာ Agent ၏ လမ်းညွှန်ချက်အတိုင်း Skill Folder ထဲ ထည့်သွင်းရပါမည်။',
+    studioBridgeTitle: 'အဆင့်မြင့် Visual Studio သို့ ချိတ်ဆက်ရန် (ရွေးချယ်နိုင်သည်)',
     studioBridgeDesc:
-      'စစ်ဆေးပြီးသော Skill ကို Spark Skill Studio သို့ ယူဆောင်သွားကာ အဆင့်မြင့် Agent Architecture, Tool Schema များနှင့် Production File များ တည်ဆောက်နိုင်ပါသည်။',
-    studioBridgeCopyOpen: 'မူကြမ်းကူးပြီး Studio သို့ သွားမည်',
-    studioBridgeCopying: 'မူကြမ်းကူးပြီးပါပြီ! Studio ဖွင့်နေသည်...',
-    studioBridgeDirectOpen: 'Studio တိုက်ရိုက်ဖွင့်မည်',
-    exportMdBtn: 'ဖိုင်အဖြစ် ဒေါင်းလုဒ်လုပ်မည် (.md)',
-    backToReviewBtn: 'ထပ်မံ စစ်ဆေးပြင်ဆင်မည်',
-    restartBtn: 'အသစ်တစ်ခု ထပ်မံလုပ်မည်',
+      'Multi-tool schemas နှင့် complex architecture များ လိုအပ်မှသာ Spark Skill Studio & Architect Web App ကို အသုံးပြုနိုင်ပါသည်။ (ရိုးရှင်းသော Skill များအတွက် မဖြစ်မနေ မလိုပါ)',
+    studioBridgeCopyOpen: 'Studio တွင် ဆက်ဆောက်မည် ↗',
+    studioBridgeCopying: 'ကူးယူပြီးပါပြီ ✓',
+    studioBridgeDirectOpen: 'Studio သို့ တိုက်ရိုက်သွားမည် ↗',
+    downloadSkillMdBtn: 'SKILL.md ဖိုင် ဒေါင်းလုဒ်ဆွဲမည်',
+    downloadChecklistLogBtn: 'Prompt နှင့် စစ်ဆေးချက်မှတ်တမ်း ဒေါင်းလုဒ်',
+    backToReviewBtn: 'အဆင့် ၃ သို့ ပြန်သွားမည်',
+    restartBtn: 'Skill အသစ် ပြန်စမည်',
 
-    // Mobile
-    mobileBack: 'နောက်ပြန်',
-    mobileRecheck: 'ထပ်စစ်',
-    mobileGenPrompt: 'Gem ကို မေးရန် စာသားထုတ်မယ်',
-    mobileCopy: 'စာသားကူး',
-    mobileCopied: 'ကူးပြီး',
-    mobileCopyOpenGem: 'ကူး & Gem ဖွင့်',
-    mobileGotAnswer: 'အဖြေရပြီ →',
-    mobileFinalCheck: 'အပြီးသတ်စစ်မည်',
-    mobileStartNew: 'အသစ်တစ်ခု စမည်',
+    // Mobile bar
+    mobileBack: 'နောက်သို့',
+    mobileRecheck: 'ပြန်စစ်မည်',
+    mobileGenPrompt: 'Prompt ပြင်ဆင်မည်',
+    mobileCopy: 'Prompt ကူးမည်',
+    mobileCopied: 'ကူးပြီး ✓',
+    mobileCopyOpenGem: 'Gem ဖွင့်မည် ↗',
+    mobileGotAnswer: 'အဖြေရပြီ (စစ်မည်)',
+    mobileFinalCheck: 'သိမ်းဆည်းမည်',
+    mobileStartNew: 'အသစ်စမည်',
 
     // Footer
-    footerGuidePrompt: 'Gemini Spark အသုံးပြုနည်းနှင့် လက်တွေ့ဥပမာများ ဖတ်ရန်:',
+    footerGuidePrompt: 'Gemini Skill Builder Guide Companion',
     footerDisclaimer:
-      'ဒီစာမျက်နှာတွင် Gem System Instruction မပါရှိပါ။ ပြင်ဆင်ပြီးသား Skill Builder Gem နှင့် Spark Studio တို့ကို အသုံးပြုရန် စာသားများ အထောက်အကူပြု လမ်းညွှန်သာ ဖြစ်ပါသည်။',
+      'ဒီစာမျက်နှာသည် Gemini Skill Builder Gem တွင် အသုံးပြုရန် prompt နှင့် စစ်ဆေးချက်များကို အထောက်အကူပြု ပြင်ဆင်ပေးသော companion application ဖြစ်ပါသည်။ Gemini နှင့် ပြင်ပကိရိယာများသည် သီးခြားဝန်ဆောင်မှုများ ဖြစ်ကြပါသည်။',
     footerSuite: 'Spark Ecosystem Suite',
     footerViewTools: 'ကိရိယာများ အသေးစိတ်ကြည့်ရန်',
     footerFeatures: 'Mobile Responsive & Touch Friendly',
@@ -308,14 +392,14 @@ export const TRANSLATIONS: Record<Language, Translations> = {
   en: {
     appName: 'Skill Builder Guide',
     appTagline: 'Interactive Companion for Creating AI Skills with Gemini',
-    appSubtitle: 'Spark Ecosystem & Gemini Skill Builder Companion',
+    appSubtitle: 'Interactive companion and prompt preparer for Gemini Skill Builder',
     langToggle: 'English',
     sparkSuite: 'Spark Suite',
     templates: 'Templates',
     templatesDesc: 'Choose from ready-to-use Skill presets',
     help: 'Help',
     reset: 'Reset',
-    studioBtn: 'Skill Studio & Architect',
+    studioBtn: 'Skill Studio',
     gemBtn: 'Skill Builder Gem',
     sparkGuideBtn: 'Spark Guide',
     mcpGuideBtn: 'MCP Guide',
@@ -327,142 +411,199 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     categoryGuides: 'Guides & Documentation',
 
     // Hero
-    heroTag: 'Spark Suite Guide',
-    heroTitle1: 'Build an AI Skill',
-    heroTitle2: 'Quickly & Reliably',
+    heroTag: 'AI Skill Creation Guide',
+    heroTitle: 'Build an AI Skill Step-by-Step',
     heroDesc:
-      'Fill in 4 simple fields. This companion formats the exact prompt and testing checklist to send directly into Gemini Skill Builder Gem and Spark Skill Studio.',
+      'Fill in what you want your AI to do. This website prepares the exact structured prompt to send to Gemini Skill Builder Gem. Afterwards, you can review, test, and save the resulting skill.',
+    heroSkillDefTitle: 'What is an AI Skill?',
+    heroSkillDef:
+      'An AI Skill is a structured instruction package that teaches an AI model or agent how to perform a specific task reliably.',
+    heroStartBtn: 'Start Building Skill',
+    heroTemplatesBtn: 'Start with an Example',
+    heroOtherTools: 'Other Ecosystem Tools',
+    heroOtherToolsDesc:
+      'Connected companion tools that open in separate websites (use only when needed)',
     heroStudioCallout:
-      'For deep multi-tool Agent Architecture, use the Spark Skill Studio & Architect Web App',
+      'For deep multi-tool schema architecture, you can open Spark Skill Studio (optional)',
     heroStudioOpen: 'Open Studio',
     heroEcosystemView: 'View All Tools',
-    heroStartBtn: 'Start Building',
-    heroTemplatesBtn: 'Use Presets',
-    step1Mini: 'Describe Task',
-    step1MiniDesc: 'Specify what you want the AI to do',
-    step2Mini: 'Send to Gem',
-    step2MiniDesc: 'Copy structured prompt into the Gem',
-    step3Mini: 'Review & Refine',
-    step3MiniDesc: 'Review, improve, and run test cases',
 
     // Step Nav
-    step1Nav: '1. Define Task',
-    step2Nav: '2. Send to Gem',
-    step3Nav: '3. Review & Test',
-    step4Nav: '4. Final Check',
+    step1Nav: 'Describe Task',
+    step2Nav: 'Send to Gemini',
+    step3Nav: 'Review Skill',
+    step4Nav: 'Test & Save',
+    stepProgressLabel: 'Progress',
+    stepStatusPreparing: 'Drafting',
+    stepStatusCompleted: 'Completed',
 
     // Step 1
-    step1Title: 'Define Your Skill Requirements',
+    step1Title: 'Step 1 — Describe the Task',
     step1Subtitle:
-      'Fill in the 4 fields below. Fields marked with red asterisk (*) are required.',
-    step1QuickFill: 'Quick Fill with Preset Sample',
-    fieldTaskLabel: 'What should the Skill do?',
+      'Describe what you want the AI to do and the expected outcome. The two fields with red asterisks (*) are required.',
+    step1CurrentGuide:
+      'Fill in the task details and success criteria below.',
+    step1PresetsPrompt:
+      'Not sure what to write? Choose a ready-to-use preset example below to get started quickly.',
+    fieldTaskLabel: 'What task should the AI accomplish?',
+    fieldTaskHelper: 'Describe the task in 1 or 2 concise sentences.',
     fieldTaskPlaceholder:
-      'e.g. Generate an itemized price quotation based on customer specifications',
-    fieldDestLabel: 'Where will it be deployed?',
-    fieldInputLabel: 'What inputs does the user provide?',
-    fieldInputOptional: '(Optional)',
-    fieldInputPlaceholder: 'e.g. Item names, unit prices, tax percentage, quantity',
-    fieldSuccessLabel: 'What defines a successful output?',
+      'Example — Summarize meeting notes, identify decisions, and extract follow-up action items.',
+    fieldTaskError:
+      'Please enter the task you want the AI to accomplish before proceeding.',
+    fieldDestLabel: 'Where will you deploy this Skill?',
+    fieldDestHelp:
+      'If unsure, keep the current default selection.',
+    destOptionSkillMd: 'Agent Skills format (SKILL.md standard folder)',
+    destOptionPortable: 'Portable skill (universal text for any AI runtime)',
+    destExplanationSkillMd:
+      'SKILL.md: Standard folder/file specification for agent runtimes (Claude, Codex, Antigravity, etc.). Note that installation steps vary across agent platforms.',
+    destExplanationPortable:
+      'Portable Skill: Universal plain markdown text with no specialized folder structure, usable in any AI chat or LLM prompt directly.',
+    fieldInputLabel: 'What input will the user provide to the AI?',
+    fieldInputOptional: '(Optional — leave blank if not yet determined)',
+    fieldInputHelper:
+      'The documents, messages, or raw data the user will feed into the AI.',
+    fieldInputPlaceholder:
+      'Example — Meeting raw notes, transcript, discussion bullet points',
+    fieldSuccessLabel: 'What output should the AI deliver?',
+    fieldSuccessHelper:
+      'Specify the required elements in the final response.',
     fieldSuccessPlaceholder:
-      'e.g. Clean, well-formatted markdown quotation with accurate totals and payment terms',
-    destOptionSkillMd: 'Agent Skills format (SKILL.md folder & markdown)',
-    destOptionPortable: 'Portable Skill (Destination not decided yet)',
-    destHintSkillMd: 'Best for code repositories, CLI agents, and AI Studio Agent Skills',
-    destHintSkillMdStudio: 'Build visual architecture in Spark Skill Studio',
-    destHintPortable: 'Standard markdown format compatible with any LLM system',
+      'Example — Clean summary with decisions, action items, assignees, and deadlines.',
+    fieldSuccessError:
+      'Please specify the expected success criteria before proceeding.',
+    step1SubmitBtn: 'Prepare Prompt for Gemini',
+    step1SubmitHint:
+      'In the next step, you will copy this prompt and paste it into Gemini Skill Builder Gem.',
     step1Clear: 'Clear',
-    step1SubmitBtn: 'Generate Prompt for Gem',
-    step1Error: 'Please provide both the Task description and Success criteria.',
+    presetAppliedSuccess:
+      'Preset example loaded! You can edit any field as needed.',
+    presetConfirmOverwrite:
+      'Do you want to replace your currently entered content with this preset example?',
 
     // Step 2
-    step2Title: 'Paste This Prompt Into the Gem',
+    step2Title: 'Step 2 — Send to Gemini',
     step2Subtitle:
-      'If the Gem asks follow-up questions, answer as best as you can or say "undecided".',
-    step2ToolbarTitle: 'Gemini Skill Builder Prompt',
+      'Copy the prepared prompt and paste it into Gemini Skill Builder Gem to generate your skill.',
+    step2CurrentGuide:
+      'Copy the prompt below and start your conversation in the Gemini Gem.',
+    step2PromptLabel: 'Prompt to Send to Gemini (Intermediate Prompt)',
+    step2PromptNotice:
+      'Note: This text is the initial conversation prompt to send to Gemini, not the final SKILL.md file.',
+    step2HandoffTitle: 'Step-by-step instructions for Gemini:',
+    step2Handoff1: '1. Copy the prepared prompt below.',
+    step2Handoff2: '2. Open Gemini Skill Builder Gem (opens in a new tab).',
+    step2Handoff3: '3. Paste the prompt into Gemini and press send.',
+    step2Handoff4: '4. Read and review the initial skill generated by Gemini.',
+    step2Handoff5: '5. Proceed to the next step to review and test the response.',
+    step2ToolbarTitle: 'Prepared Prompt',
     step2Words: 'words',
     step2Chars: 'characters',
-    step2Download: 'Save .md',
-    step2OpenGem: 'Open Skill Builder Gem',
-    step2CopyPrompt: 'Copy Prompt',
-    step2Copied: 'Copied!',
-    step2CopyAndOpenGem: 'Copy & Open Gem',
-    step2CopySuccess: 'Successfully copied to clipboard ✓',
-    step2CopyHint: 'Click to copy the entire formatted prompt',
-    step2TipTitle: 'Important Best Practice —',
-    step2TipDesc:
-      'Carefully inspect the skill produced by the Gem. Keep file names, code blocks, and YAML frontmatter intact while validating the logic.',
-    step2PrevBtn: 'Edit Inputs',
-    step2NextBtn: 'Got Gem Output (Continue)',
+    step2DownloadPrompt: 'Download Prompt',
+    step2CopyBtn: 'Copy Prompt',
+    step2Copied: 'Copied to Clipboard ✓',
+    step2OpenGemBtn: 'Open Gemini Skill Builder Gem ↗',
+    step2CopyAndOpenGemBtn: 'Copy & Open Gem ↗',
+    step2PrevBtn: 'Back to Step 1',
+    step2NextBtn: 'Continue to Review Step',
+    step2ClipboardFallback:
+      'If clipboard copy is blocked by browser permissions, select all text in the box above and copy manually.',
 
     // Step 3
-    step3Title: 'What Would You Like to Do Next?',
+    step3Title: 'Step 3 — Review the Skill',
     step3Subtitle:
-      'Choose an action. A tailored follow-up prompt will be generated automatically.',
-    modeReviewTitle: 'Review Quality',
+      'Inspect Gemini’s generated skill and formulate follow-up prompts to refine it if needed.',
+    step3CurrentGuide:
+      'Review Gemini’s response and grab follow-up prompts to refine or test it.',
+    step3Intro:
+      'Once Gemini drafts your skill, inspect it for missing inputs, tool contradictions, or unfulfilled success criteria. Select an option below to generate a follow-up prompt to send to the Gem:',
+    modeReviewTitle: 'Review & Audit',
     modeReviewDesc:
-      'Check for missing requirements, contradictions, and invalid tool assumptions',
-    modeImproveTitle: 'Request Improvements',
+      'Ask Gemini to audit the skill for ambiguous triggers, missing inputs, and logic contradictions.',
+    modeImproveTitle: 'Refine & Polish',
     modeImproveDesc:
-      'Ask for specific enhancements, extra examples, or adjusted formatting',
+      'Instruct Gemini to make outputs concise, add bilingual support, or format results into tables.',
     modeTestTitle: 'Generate Test Suite',
     modeTestDesc:
-      'Generate edge cases, incomplete queries, and dual-language tests',
-    improveLabel: 'What would you like to improve or add?',
+      'Ask Gemini to draft realistic test queries, edge cases, and expected observable behaviors.',
+    improveLabel: 'Specific changes requested (optional):',
     improvePlaceholder:
-      'e.g. Include step-by-step fallback handling if an API error occurs',
-    quickSuggestionsTitle: 'Quick Suggestions:',
-    promptGeneratedForMode: 'Follow-up Prompt to Send to Gem:',
+      'Example — Make explanations concise, provide bilingual English and Myanmar outputs...',
+    quickSuggestionsTitle: 'Popular refinement suggestions:',
+    promptGeneratedForMode: 'Follow-up prompt to send to Gemini:',
     editPromptBtn: 'Edit Prompt Text',
-    editingPromptBadge: 'Customizing prompt text',
-    step3CopyPrompt: 'Copy Follow-up',
-    step3Copied: 'Copied!',
-    step3CopyAndOpenGem: 'Copy & Open Gem',
-    step3PrevBtn: 'Back to Initial Prompt',
-    step3NextBtn: 'Review Complete (Final Check)',
+    editingPromptBadge: 'Editing',
+    step3CopyPrompt: 'Copy Follow-up Prompt',
+    step3Copied: 'Copied ✓',
+    step3CopyAndOpenGem: 'Copy & Open Gem ↗',
+    step3PrevBtn: 'Back to Step 2',
+    step3NextBtn: 'Continue to Test & Save',
 
     // Step 4
-    step4Title: '3-Point Verification Before Saving',
+    step4Title: 'Step 4 — Test & Save',
     step4Subtitle:
-      'A skill that executes accurately and reliably is far more valuable than one that merely sounds convincing.',
-    checklistHeader: 'Verification Checklist (Click to check off)',
-    checklistCount: 'Completed',
-    checkItem1Title: 'Tool & File Integrity',
+      'Verify the finalized skill against the checklist and save it as SKILL.md.',
+    step4CurrentGuide:
+      'Inspect the finalized skill, run quality checks, and download as SKILL.md.',
+    pasteSkillHeader: 'Final Skill Generated by Gemini (Paste here):',
+    pasteSkillHelp:
+      'Paste the finalized SKILL.md content generated by Gemini here. The validator will check the YAML frontmatter and allow direct download as SKILL.md.',
+    pasteSkillPlaceholder:
+      'Paste the full SKILL.md response from Gemini here (including --- name: ... description: ...)...',
+    validatorTitle: 'Agent Skills (SKILL.md) Validator:',
+    validatorSuccess:
+      'Valid Agent Skill format: YAML frontmatter (name, description) and instructions are present.',
+    validatorMissingFrontmatter:
+      'Notice: To comply with the standard Agent Skills specification, the file should begin with YAML frontmatter (--- name: ... description: ... ---).',
+    validatorNoContent:
+      'Paste the finalized skill from Gemini above to validate and download as SKILL.md.',
+    checklistHeader: 'Verification Checklist:',
+    checklistCount: 'checked',
+    checkItem1Title: '1. Objective & Success Criteria Met',
     checkItem1Desc:
-      'Are only real, existing tools and files referenced? Ensure the LLM has not hallucinated non-existent APIs or libraries.',
-    checkItem2Title: 'Text Inspection vs Real Execution',
+      'Confirmed that Gemini’s generated skill fulfills the exact task and produces the expected output format.',
+    checkItem2Title: '2. No Invalid Tool or API Assumptions',
     checkItem2Desc:
-      'Reading and validating prompt text does not substitute for actual execution testing in your runtime environment.',
-    checkItem3Title: 'Dual-Language Testing',
+      'Verified that the instructions do not assume non-existent external tools, APIs, or files.',
+    checkItem3Title: '3. Tested with a Real-World Sample',
     checkItem3Desc:
-      'Test with both English and Myanmar inputs to verify consistent reasoning and proper terminology translation.',
-    studioBridgeTitle: 'Continue in Spark Skill Studio & Architect',
+      'Tested with at least one realistic sample query in Gemini and confirmed the expected behavior.',
+    finalGuidanceTitle: 'Three Final Rules of Thumb:',
+    finalGuidance1: '1. Inspect the instructions in SKILL.md before deployment.',
+    finalGuidance2: '2. Follow the installation guide for your specific AI agent runtime.',
+    finalGuidance3: '3. Test with sample inputs and refine as needed.',
+    honestDisclosureTitle: 'Important Clarification:',
+    honestDisclosureText:
+      'Downloading this file saves it to your local device. It does not automatically install the skill into an AI agent. Follow your specific AI agent’s documentation for where to place the skill folder.',
+    studioBridgeTitle: 'Connect with Visual Studio & Architect (Optional)',
     studioBridgeDesc:
-      'Take your validated skill into Spark Skill Studio to generate full tool schemas, multi-file architectures, and production-ready assets.',
-    studioBridgeCopyOpen: 'Copy Draft & Open Studio',
-    studioBridgeCopying: 'Copied draft! Opening Studio...',
-    studioBridgeDirectOpen: 'Open Studio Directly',
-    exportMdBtn: 'Export Markdown (.md)',
-    backToReviewBtn: 'Back to Review',
-    restartBtn: 'Start New Skill',
+      'Use Spark Skill Studio & Architect only if you need visual multi-tool schemas and complex architectures. Simple skills do not require it.',
+    studioBridgeCopyOpen: 'Architect in Studio ↗',
+    studioBridgeCopying: 'Copied ✓',
+    studioBridgeDirectOpen: 'Open Studio Directly ↗',
+    downloadSkillMdBtn: 'Download SKILL.md',
+    downloadChecklistLogBtn: 'Download Prompt & Checklist Log',
+    backToReviewBtn: 'Back to Step 3',
+    restartBtn: 'Start a New Skill',
 
-    // Mobile
+    // Mobile bar
     mobileBack: 'Back',
     mobileRecheck: 'Recheck',
-    mobileGenPrompt: 'Generate Prompt for Gem',
-    mobileCopy: 'Copy',
-    mobileCopied: 'Copied',
-    mobileCopyOpenGem: 'Copy & Open Gem',
-    mobileGotAnswer: 'Got Answer →',
-    mobileFinalCheck: 'Final Check',
+    mobileGenPrompt: 'Prepare Prompt',
+    mobileCopy: 'Copy Prompt',
+    mobileCopied: 'Copied ✓',
+    mobileCopyOpenGem: 'Open Gem ↗',
+    mobileGotAnswer: 'Got Answer (Review)',
+    mobileFinalCheck: 'Save Skill',
     mobileStartNew: 'Start New',
 
     // Footer
-    footerGuidePrompt: 'Read Gemini Spark Guide & practical examples:',
+    footerGuidePrompt: 'Gemini Skill Builder Guide Companion',
     footerDisclaimer:
-      'This companion does not replace Gem instructions. It serves as a structured workflow generator for Gemini Skill Builder Gem and Spark Skill Studio.',
+      'This website is an interactive companion that prepares prompts and testing checklists for Gemini Skill Builder Gem. Gemini and other ecosystem websites are separate independent services.',
     footerSuite: 'Spark Ecosystem Suite',
-    footerViewTools: 'View Tool Details',
+    footerViewTools: 'View Ecosystem Details',
     footerFeatures: 'Mobile Responsive & Touch Friendly',
   },
 };

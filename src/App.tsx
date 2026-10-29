@@ -36,7 +36,8 @@ import { SparkEcosystemModal } from './components/SparkEcosystemModal';
 const LANG_STORAGE_KEY = 'gemini_skill_builder_lang_v1';
 
 export default function App() {
-  const [lang, setLang] = useState<Language>('en');
+  // Default to Myanmar ('my') for first-time visitors
+  const [lang, setLang] = useState<Language>('my');
   const [currentStep, setCurrentStep] = useState<StepNumber>(1);
   const [maxReachedStep, setMaxReachedStep] = useState<number>(1);
 
@@ -49,7 +50,9 @@ export default function App() {
   });
 
   const [formError, setFormError] = useState<string>('');
+  const [fieldErrors, setFieldErrors] = useState<{ task?: string; success?: string }>({});
   const [generatedPrompt, setGeneratedPrompt] = useState<string>('');
+  const [finalSkillText, setFinalSkillText] = useState<string>('');
 
   // Modals
   const [isTemplatesModalOpen, setIsTemplatesModalOpen] = useState<boolean>(false);
@@ -57,26 +60,35 @@ export default function App() {
   const [isEcosystemModalOpen, setIsEcosystemModalOpen] = useState<boolean>(false);
   const [mobileCopied, setMobileCopied] = useState<boolean>(false);
 
-  // Load language preference on mount, defaulting to English ('en')
+  // Load language preference on mount, strictly defaulting to Myanmar ('my') if no saved pref
   useEffect(() => {
     try {
       const savedLang = localStorage.getItem(LANG_STORAGE_KEY) as Language;
       if (savedLang === 'en' || savedLang === 'my') {
         setLang(savedLang);
       } else {
-        setLang('en');
+        setLang('my');
       }
     } catch {
-      setLang('en');
+      setLang('my');
     }
   }, []);
+
+  // Sync document language attribute and title with current language
+  useEffect(() => {
+    document.documentElement.lang = lang;
+    document.title =
+      lang === 'my'
+        ? 'AI Skill Builder လမ်းညွှန် — Gemini Skill Builder Companion'
+        : 'AI Skill Builder Guide — Gemini Skill Builder Companion';
+  }, [lang]);
 
   const handleLanguageChange = (newLang: Language) => {
     setLang(newLang);
     try {
       localStorage.setItem(LANG_STORAGE_KEY, newLang);
     } catch {
-      // Ignore localStorage write failure in restricted environments
+      // Ignore localStorage write failure in restricted iframe environments
     }
   };
 
@@ -86,6 +98,9 @@ export default function App() {
       [field]: value,
     }));
     if (formError) setFormError('');
+    if (fieldErrors[field as 'task' | 'success']) {
+      setFieldErrors((prev) => ({ ...prev, [field]: undefined }));
+    }
   };
 
   const handleClearForm = () => {
@@ -96,38 +111,55 @@ export default function App() {
       success: '',
     });
     setFormError('');
+    setFieldErrors({});
+  };
+
+  const handleApplyPreset = (presetData: SkillFormData) => {
+    setFormData(presetData);
+    setFormError('');
+    setFieldErrors({});
   };
 
   const handleStep1Submit = () => {
+    const errors: { task?: string; success?: string } = {};
+
     if (!formData.task.trim()) {
-      setFormError(
+      errors.task =
         lang === 'en'
-          ? 'Please enter the task you want the AI Skill to accomplish.'
-          : 'AI Skill ဖြင့် လုပ်ဆောင်လိုသော အလုပ် (Task) ကို ဖြည့်သွင်းပေးပါ။'
-      );
-      return;
+          ? 'Please enter the task you want the AI to accomplish before proceeding.'
+          : 'ဆက်လုပ်ရန် AI ကို လုပ်စေချင်သောအလုပ်ကို အရင်ရေးပါ။';
     }
+
     if (!formData.success.trim()) {
+      errors.success =
+        lang === 'en'
+          ? 'Please specify the expected success criteria before proceeding.'
+          : 'ဆက်လုပ်ရန် သင်လိုချင်သော ရလဒ်ကို အရင်ရေးပါ။';
+    }
+
+    if (errors.task || errors.success) {
+      setFieldErrors(errors);
       setFormError(
         lang === 'en'
-          ? 'Please specify the success criteria.'
-          : 'အောင်မြင်မှုစံနှုန်း (Success Criteria) ကို သတ်မှတ်ပေးပါ။'
+          ? 'Please fill in the required fields marked with an asterisk (*).'
+          : 'ကြယ်နီ (*) ပြထားသော မဖြစ်မနေ လိုအပ်သည့်အကွက်များကို ဖြည့်သွင်းပေးပါ။'
       );
+      // Focus first missing element
+      if (errors.task) {
+        document.getElementById('task-input')?.focus();
+      } else if (errors.success) {
+        document.getElementById('success-details')?.focus();
+      }
       return;
     }
 
     setFormError('');
-    const prompt = buildPromptText(formData);
+    setFieldErrors({});
+    const prompt = buildPromptText(formData, lang);
     setGeneratedPrompt(prompt);
     setCurrentStep(2);
     if (maxReachedStep < 2) setMaxReachedStep(2);
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const handleSelectTemplate = (templateData: SkillFormData) => {
-    setFormData(templateData);
-    setFormError('');
-    setIsTemplatesModalOpen(false);
   };
 
   const handleRestart = () => {
@@ -135,6 +167,7 @@ export default function App() {
     setCurrentStep(1);
     setMaxReachedStep(1);
     setGeneratedPrompt('');
+    setFinalSkillText('');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -160,9 +193,13 @@ export default function App() {
   };
 
   const t = TRANSLATIONS[lang];
+  const hasUserEnteredContent =
+    Boolean(formData.task.trim()) ||
+    Boolean(formData.input.trim()) ||
+    Boolean(formData.success.trim());
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 pb-24 sm:pb-12 antialiased selection:bg-blue-100 selection:text-blue-900">
+    <div className="min-h-screen bg-slate-50 text-slate-900 pb-24 sm:pb-12 antialiased selection:bg-blue-100 selection:text-blue-900">
       <div className="max-w-4xl mx-auto px-3 sm:px-6 pt-3 sm:pt-6">
         {/* Header Bar */}
         <Header
@@ -175,7 +212,7 @@ export default function App() {
         />
 
         {/* Main Content Card Container */}
-        <main className="bg-white rounded-3xl shadow-sm border border-slate-200/80 overflow-hidden">
+        <main className="bg-white rounded-3xl shadow-sm border border-slate-200/90 overflow-hidden">
           {/* Hero Section */}
           <HeroIntro
             lang={lang}
@@ -185,6 +222,9 @@ export default function App() {
               if (formEl) {
                 formEl.scrollIntoView({ behavior: 'smooth' });
               }
+              setTimeout(() => {
+                document.getElementById('task-input')?.focus();
+              }, 300);
             }}
             onOpenTemplates={() => setIsTemplatesModalOpen(true)}
             onOpenEcosystem={() => setIsEcosystemModalOpen(true)}
@@ -195,7 +235,7 @@ export default function App() {
             lang={lang}
             currentStep={currentStep}
             maxReachedStep={maxReachedStep}
-            onStepClick={goToStep}
+            onSelectStep={goToStep}
           />
 
           {/* Step 1: Input Requirements */}
@@ -205,7 +245,9 @@ export default function App() {
                 lang={lang}
                 formData={formData}
                 formError={formError}
+                fieldErrors={fieldErrors}
                 onChange={handleFieldChange}
+                onApplyPreset={handleApplyPreset}
                 onSubmit={handleStep1Submit}
                 onClear={handleClearForm}
                 onOpenTemplates={() => setIsTemplatesModalOpen(true)}
@@ -217,8 +259,8 @@ export default function App() {
           {currentStep === 2 && (
             <Step2PromptView
               lang={lang}
-              formData={formData}
-              generatedPrompt={generatedPrompt}
+              promptText={generatedPrompt}
+              onUpdatePrompt={setGeneratedPrompt}
               onPrev={() => goToStep(1)}
               onNext={() => {
                 setCurrentStep(3);
@@ -233,7 +275,11 @@ export default function App() {
             <Step3ReviewTest
               lang={lang}
               onPrev={() => goToStep(2)}
-              onNext={() => goToStep(4)}
+              onNext={() => {
+                setCurrentStep(4);
+                if (maxReachedStep < 4) setMaxReachedStep(4);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
             />
           )}
 
@@ -243,6 +289,8 @@ export default function App() {
               lang={lang}
               formData={formData}
               generatedPrompt={generatedPrompt}
+              finalSkillText={finalSkillText}
+              onUpdateFinalSkill={setFinalSkillText}
               onRestart={handleRestart}
               onBackToReview={() => goToStep(3)}
             />
@@ -251,7 +299,7 @@ export default function App() {
 
         {/* Clean Footer Note & Resource Links */}
         <footer className="mt-8 mb-4 text-center text-xs text-slate-500 leading-relaxed px-4 space-y-3.5">
-          {/* Neat & Tidy All Websites Link Chips */}
+          {/* Neat All Websites Link Chips */}
           <div className="space-y-1.5">
             <span className="text-[11px] font-bold tracking-wider text-slate-400 uppercase">
               {lang === 'en' ? 'Ecosystem Websites & Tools' : 'ချိတ်ဆက်ထားသော ဝဘ်ဆိုဒ်များနှင့် ကိရိယာများ'}
@@ -262,7 +310,7 @@ export default function App() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 border border-rose-200/90 text-rose-900 font-bold transition shadow-2xs"
-                title="Workflow AI Video (https://workflow-ai-video.komoe.org/)"
+                title="Workflow AI Video — သီးခြားဝဘ်ဆိုဒ်တွင် ဖွင့်ပါမည် (https://workflow-ai-video.komoe.org/)"
               >
                 <Video className="w-3.5 h-3.5 text-rose-600" />
                 <span>Workflow AI Video</span>
@@ -274,7 +322,7 @@ export default function App() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-cyan-50 hover:bg-cyan-100 border border-cyan-200/90 text-cyan-900 font-bold transition shadow-2xs"
-                title="Workflow AI Skill (https://workflow-ai-skill.komoe.org/)"
+                title="Workflow AI Skill — သီးခြားဝဘ်ဆိုဒ်တွင် ဖွင့်ပါမည် (https://workflow-ai-skill.komoe.org/)"
               >
                 <Workflow className="w-3.5 h-3.5 text-cyan-600" />
                 <span>Workflow AI Skill</span>
@@ -286,7 +334,7 @@ export default function App() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-purple-50 hover:bg-purple-100 border border-purple-200/90 text-purple-900 font-bold transition shadow-2xs"
-                title="Spark Skill Studio & Architect (skill-builder.komoe.org)"
+                title="Spark Skill Studio & Architect — သီးခြားဝဘ်ဆိုဒ်တွင် ဖွင့်ပါမည် (skill-builder.komoe.org)"
               >
                 <Cpu className="w-3.5 h-3.5 text-purple-600" />
                 <span>Spark Skill Studio</span>
@@ -298,7 +346,7 @@ export default function App() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 border border-emerald-200/90 text-emerald-900 font-bold transition shadow-2xs"
-                title="MCP Guide Website (https://mcp-guide.komoe.org/)"
+                title="MCP Guide Website — သီးခြားဝဘ်ဆိုဒ်တွင် ဖွင့်ပါမည် (https://mcp-guide.komoe.org/)"
               >
                 <Server className="w-3.5 h-3.5 text-emerald-600" />
                 <span>MCP Guide</span>
@@ -310,7 +358,7 @@ export default function App() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 border border-amber-200/90 text-amber-900 font-bold transition shadow-2xs"
-                title="Gemini Spark User Guide (gemini-spark.komoe.org)"
+                title="Gemini Spark User Guide — သီးခြားဝဘ်ဆိုဒ်တွင် ဖွင့်ပါမည် (gemini-spark.komoe.org)"
               >
                 <BookOpen className="w-3.5 h-3.5 text-amber-600" />
                 <span>Spark Guide</span>
@@ -322,7 +370,7 @@ export default function App() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-50 hover:bg-blue-100 border border-blue-200/90 text-blue-900 font-bold transition shadow-2xs"
-                title="Gemini Skill Builder Gem"
+                title="Gemini Skill Builder Gem — Google Gemini ပေါ်တွင် ဖွင့်ပါမည်"
               >
                 <Bot className="w-3.5 h-3.5 text-blue-600" />
                 <span>Skill Gem</span>
@@ -331,9 +379,7 @@ export default function App() {
             </div>
           </div>
 
-          <p>
-            {t.footerDisclaimer}
-          </p>
+          <p>{t.footerDisclaimer}</p>
           <div className="flex items-center justify-center gap-3 text-[11px] text-slate-400">
             <span>{t.footerSuite}</span>
             <span>•</span>
@@ -348,7 +394,6 @@ export default function App() {
             <span>{t.footerFeatures}</span>
           </div>
         </footer>
-
       </div>
 
       {/* Mobile Sticky Touch Bottom Bar */}
@@ -374,8 +419,9 @@ export default function App() {
       <TemplatesModal
         lang={lang}
         isOpen={isTemplatesModalOpen}
+        hasUserContent={hasUserEnteredContent}
         onClose={() => setIsTemplatesModalOpen(false)}
-        onSelectTemplate={handleSelectTemplate}
+        onSelectTemplate={handleApplyPreset}
       />
 
       <HelpModal
