@@ -1,14 +1,39 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'Noto Sans Myanmar';
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: local('Noto Sans Myanmar'), local('NotoSansMyanmar');
+}
+
+@font-face {
+  font-family: 'Pyidaungsu';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: local('Pyidaungsu');
+}
+
 :root {
-  --font-myanmar: "Noto Sans Myanmar", "Pyidaungsu", "Myanmar Text", system-ui, sans-serif;
+  --font-myanmar: "Noto Sans Myanmar", "Pyidaungsu", "Myanmar Text", system-ui, -apple-system, sans-serif;
   --font-sans: "Plus Jakarta Sans", var(--font-myanmar);
 }
 
 body {
   font-family: var(--font-myanmar);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
   -webkit-tap-highlight-color: transparent;
   overscroll-behavior-y: none;
+  line-height: 1.6;
+}
+
+/* Myanmar tone mark / subscript vertical spacing safeguards */
+p, span, h1, h2, h3, h4, button, label, input, textarea {
+  text-rendering: optimizeLegibility;
 }
 
 /* Custom scrollbar for mobile prompt views */

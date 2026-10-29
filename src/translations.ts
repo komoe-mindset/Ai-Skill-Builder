@@ -35,6 +35,26 @@ export interface Translations {
   heroStudioOpen: string;
   heroEcosystemView: string;
 
+  // Quick Start 3-step Guide
+  quickStartTitle: string;
+  quickStartStep1Badge: string;
+  quickStartStep1Title: string;
+  quickStartStep1Desc: string;
+  quickStartStep2Badge: string;
+  quickStartStep2Title: string;
+  quickStartStep2Desc: string;
+  quickStartStep3Badge: string;
+  quickStartStep3Title: string;
+  quickStartStep3Desc: string;
+
+  // Gemini Test Prompt
+  testPromptCardTitle: string;
+  testPromptCardSubtitle: string;
+  testPromptCardCopyBtn: string;
+  testPromptCardCopied: string;
+  testPromptCardHelper: string;
+  exactTestPrompt: string;
+
   // Step Nav
   step1Nav: string;
   step2Nav: string;
@@ -204,7 +224,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     heroSkillDefTitle: 'Skill ဆိုတာ ဘာလဲ။',
     heroSkillDef:
       'Skill ဆိုတာ AI ကို အလုပ်တစ်ခု ဘယ်လိုလုပ်ရမလဲဆိုတာ ညွှန်ပြထားတဲ့ လမ်းညွှန်ချက် ဖြစ်ပါတယ်။',
-    heroStartBtn: 'Skill စတင်ဖန်တီးမည်',
+    heroStartBtn: 'ဒီနေရာမှာ စတင်ပါ',
     heroTemplatesBtn: 'ဥပမာတစ်ခုဖြင့် စတင်မည်',
     heroOtherTools: 'ပိုမိုသိရှိရန် & အခြားကိရိယာများ',
     heroOtherToolsDesc:
@@ -213,6 +233,32 @@ export const TRANSLATIONS: Record<Language, Translations> = {
       'အဆင့်မြင့် Visual Multi-tool Architecture လိုအပ်ပါက Spark Skill Studio ကို အသုံးပြုနိုင်ပါသည် (ရွေးချယ်နိုင်သည်)',
     heroStudioOpen: 'Studio ဖွင့်မည်',
     heroEcosystemView: 'ကိရိယာစုံကြည့်ရန်',
+
+    // Quick Start 3-step Guide
+    quickStartTitle: 'အမြန်စတင်နည်း (၃ ဆင့်)',
+    quickStartStep1Badge: 'အဆင့် (၁)',
+    quickStartStep1Title: 'AI Agent ၏ လုပ်ဆောင်ချက်ကို ရွေးပါ သို့မဟုတ် ရေးပါ',
+    quickStartStep1Desc:
+      'သင့် AI Agent လုပ်ဆောင်စေချင်သည့် အလုပ်ကို အောက်တွင် ရိုက်ထည့်ပါ (သို့မဟုတ် နမူနာတစ်ခုကို ရွေးပါ)',
+    quickStartStep2Badge: 'အဆင့် (၂)',
+    quickStartStep2Title: 'ထွက်လာသော Skill မူကြမ်းကို လိုအပ်သလို ပြင်ဆင်ပါ',
+    quickStartStep2Desc:
+      'အသင့်ထွက်လာသော Prompt မူကြမ်းကို Gemini သို့ ပို့ပြီး လိုအပ်သလို မွမ်းမံပြင်ဆင်ပါ',
+    quickStartStep3Badge: 'အဆင့် (၃)',
+    quickStartStep3Title: 'Skill.md ကို Copy ကူးပြီး Gemini တွင် စမ်းသပ်ပါ',
+    quickStartStep3Desc:
+      'Skill.md ကို Copy ကူးယူပြီး Gemini တွင် Test Prompt ဖြင့် အစအဆုံး လက်တွေ့စမ်းသပ်ပါ',
+
+    // Gemini Test Prompt
+    testPromptCardTitle: 'Gemini တွင် စမ်းသပ်ရန် Prompt (Testing Instructions)',
+    testPromptCardSubtitle:
+      'Skill.md ကို Gemini သို့ ထည့်သွင်းပြီးပါက အောက်ပါ Prompt ကို အသုံးပြု၍ Skill လုပ်ဆောင်ချက် အပြည့်အစုံကို စမ်းသပ်နိုင်ပါသည်',
+    testPromptCardCopyBtn: 'Copy Test Prompt',
+    testPromptCardCopied: 'Test Prompt ကို ကူးယူပြီးပါပြီ ✓',
+    testPromptCardHelper:
+      'Skill.md ကို Gemini သို့ ထည့်သွင်းပြီးပါက အထက်ပါ Prompt ကို ရိုက်ထည့်၍ Skill လုပ်ဆောင်ချက် အပြည့်အစုံကို စမ်းသပ်နိုင်ပါသည်။',
+    exactTestPrompt:
+      "Let's explore what it does with an example. Make up a realistic user prompt and then use the full Skill end to end.",
 
     // Step Nav
     step1Nav: 'အလုပ်ကို ပြောပြပါ',
@@ -226,17 +272,17 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     // Step 1
     step1Title: 'အဆင့် ၁ — အလုပ်ကို ပြောပြပါ',
     step1Subtitle:
-      'AI ကို လုပ်စေချင်သောအလုပ်နှင့် လိုချင်သောရလဒ်ကို အောက်တွင် ဖြည့်ပါ။ မဖြစ်မနေ လိုအပ်သောအချက် ၂ ချက်ကို ကြယ်နီ (*) ပြထားပါသည်။',
+      'သင့် AI Agent လုပ်ဆောင်စေချင်သည့် အလုပ်နှင့် ရလဒ်ကို အောက်တွင် ဖြည့်စွက်ပါ။ မဖြစ်မနေ လိုအပ်သောအချက် ၂ ချက်ကို ကြယ်နီ (*) ဖြင့် ပြထားပါသည်။',
     step1CurrentGuide:
-      'လုပ်စေချင်သော အလုပ်အကြောင်းကို အောက်ပါအကွက်များတွင် ရေးသားပါ။',
+      'သင့် AI Agent လုပ်ဆောင်စေချင်သည့် အလုပ်ကို အောက်တွင် ရိုက်ထည့်ပါ။',
     step1PresetsPrompt:
-      'ဘယ်လိုရေးရမလဲ မသိသေးဘူးလား။ အောက်က နမူနာတစ်ခုကို ရွေးပြီး စတင်နိုင်ပါတယ်။',
-    fieldTaskLabel: 'AI ကို ဘာအလုပ် လုပ်ခိုင်းချင်ပါသလဲ။',
+      'ဘယ်လိုစတင်ရမလဲ မသေချာပါက အောက်ပါ နမူနာများမှ တစ်ခုကို ရွေးချယ်နိုင်ပါသည်',
+    fieldTaskLabel: 'သင့် AI Agent ကို ဘာအလုပ် လုပ်ခိုင်းချင်ပါသလဲ။',
     fieldTaskHelper:
-      'လုပ်စေချင်တဲ့အလုပ်ကို တစ်ကြောင်း သို့မဟုတ် နှစ်ကြောင်းဖြင့် ရေးပါ။',
+      'သင့် AI Agent လုပ်ဆောင်စေချင်သည့် အလုပ်ကို အောက်တွင် ရိုက်ထည့်ပါ (တစ်ကြောင်း သို့မဟုတ် နှစ်ကြောင်းဖြင့် ရှင်းလင်းစွာ ရေးနိုင်ပါသည်)',
     fieldTaskPlaceholder:
       'ဥပမာ — အစည်းအဝေးမှတ်စုတွေကို အကျဉ်းချုပ်ပြီး ဆက်လုပ်ရန်အချက်များ ထုတ်ပေးပါ။',
-    fieldTaskError: 'ဆက်လုပ်ရန် AI ကို လုပ်စေချင်သောအလုပ်ကို အရင်ရေးပါ။',
+    fieldTaskError: 'ဆက်လုပ်ရန် သင့် AI Agent လုပ်ဆောင်စေချင်သည့် အလုပ်ကို အရင်ရေးပါ။',
     fieldDestLabel: 'ဒီ Skill ကို ဘယ်နေရာမှာ သုံးချင်ပါသလဲ။',
     fieldDestHelp: 'မသေချာသေးရင် လက်ရှိရွေးထားတဲ့ အဖြေကို ထားနိုင်ပါတယ်။',
     destOptionSkillMd: 'Agent Skills format (SKILL.md folder ပုံစံ)',
@@ -427,6 +473,32 @@ export const TRANSLATIONS: Record<Language, Translations> = {
       'For deep multi-tool schema architecture, you can open Spark Skill Studio (optional)',
     heroStudioOpen: 'Open Studio',
     heroEcosystemView: 'View All Tools',
+
+    // Quick Start 3-step Guide
+    quickStartTitle: 'Quick Start Guide (3 Simple Steps)',
+    quickStartStep1Badge: 'Step 1',
+    quickStartStep1Title: 'Choose or Describe Task',
+    quickStartStep1Desc:
+      'Type what you want your AI Agent to do below, or select a preset example to begin.',
+    quickStartStep2Badge: 'Step 2',
+    quickStartStep2Title: 'Review & Customize',
+    quickStartStep2Desc:
+      'Send the prepared prompt to Gemini and customize the instructions to fit your exact needs.',
+    quickStartStep3Badge: 'Step 3',
+    quickStartStep3Title: 'Export to Gemini & Test',
+    quickStartStep3Desc:
+      'Copy your finalized Skill.md and test it end-to-end in Gemini with the testing prompt.',
+
+    // Gemini Test Prompt
+    testPromptCardTitle: 'Gemini Testing Prompt (Testing Instructions)',
+    testPromptCardSubtitle:
+      'Once you enter your Skill.md in Gemini, paste the prompt below to test the full skill end-to-end',
+    testPromptCardCopyBtn: 'Copy Test Prompt',
+    testPromptCardCopied: 'Copied Test Prompt ✓',
+    testPromptCardHelper:
+      'Once you enter your Skill.md in Gemini, paste the prompt above to test the full skill end to end.',
+    exactTestPrompt:
+      "Let's explore what it does with an example. Make up a realistic user prompt and then use the full Skill end to end.",
 
     // Step Nav
     step1Nav: 'Describe Task',

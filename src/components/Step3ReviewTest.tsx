@@ -15,6 +15,7 @@ import {
   Bot,
   Info,
 } from 'lucide-react';
+import { GeminiTestPromptCard } from './GeminiTestPromptCard';
 
 interface Step3ReviewTestProps {
   lang: Language;
@@ -312,6 +313,9 @@ export const Step3ReviewTest: React.FC<Step3ReviewTestProps> = ({
           </div>
         </div>
       </div>
+
+      {/* Dedicated Gemini Testing Instructions Card */}
+      <GeminiTestPromptCard lang={lang} />
 
       {/* Bottom Navigation Actions */}
       <div className="flex flex-col-reverse xs:flex-row items-center justify-between gap-3 pt-2">

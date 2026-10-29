@@ -17,6 +17,7 @@ import {
   Info,
 } from 'lucide-react';
 import { downloadTextFile, copyToClipboard } from '../utils/helpers';
+import { GeminiTestPromptCard } from './GeminiTestPromptCard';
 
 interface Step4FinalCheckProps {
   lang: Language;
@@ -280,6 +281,9 @@ ${generatedPrompt}
           <span>{t.downloadChecklistLogBtn}</span>
         </button>
       </div>
+
+      {/* Dedicated Gemini Testing Instructions Card */}
+      <GeminiTestPromptCard lang={lang} />
 
       {/* Interactive Verification Checklist */}
       <div className="space-y-3 pt-2">

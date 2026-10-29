@@ -11,6 +11,9 @@ import {
   Workflow,
   ChevronDown,
   Info,
+  PenLine,
+  SlidersHorizontal,
+  FileCheck2,
 } from 'lucide-react';
 import {
   WORKFLOW_AI_VIDEO_URL,
@@ -37,6 +40,33 @@ export const HeroIntro: React.FC<HeroIntroProps> = ({
 }) => {
   const t = TRANSLATIONS[lang];
   const [showOtherTools, setShowOtherTools] = useState(false);
+
+  const quickStartSteps = [
+    {
+      badge: t.quickStartStep1Badge,
+      title: t.quickStartStep1Title,
+      desc: t.quickStartStep1Desc,
+      icon: PenLine,
+      color: 'bg-blue-50 text-blue-700 border-blue-200/80',
+      badgeColor: 'bg-blue-600 text-white',
+    },
+    {
+      badge: t.quickStartStep2Badge,
+      title: t.quickStartStep2Title,
+      desc: t.quickStartStep2Desc,
+      icon: SlidersHorizontal,
+      color: 'bg-indigo-50 text-indigo-700 border-indigo-200/80',
+      badgeColor: 'bg-indigo-600 text-white',
+    },
+    {
+      badge: t.quickStartStep3Badge,
+      title: t.quickStartStep3Title,
+      desc: t.quickStartStep3Desc,
+      icon: FileCheck2,
+      color: 'bg-emerald-50 text-emerald-700 border-emerald-200/80',
+      badgeColor: 'bg-emerald-600 text-white',
+    },
+  ];
 
   const ecosystemLinks = [
     {
@@ -90,8 +120,8 @@ export const HeroIntro: React.FC<HeroIntroProps> = ({
   ];
 
   return (
-    <section className="relative overflow-hidden border-b border-slate-200/80 bg-gradient-to-br from-blue-50/70 via-white to-slate-50/50 p-5 sm:p-8">
-      <div className="max-w-3xl space-y-4">
+    <header className="relative overflow-hidden border-b border-slate-200/80 bg-gradient-to-br from-blue-50/70 via-white to-slate-50/50 p-5 sm:p-8">
+      <div className="max-w-4xl space-y-6">
         {/* Category Tag */}
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-100/80 text-blue-800 tracking-wide">
           <Sparkles className="w-3.5 h-3.5 text-blue-600" />
@@ -99,14 +129,52 @@ export const HeroIntro: React.FC<HeroIntroProps> = ({
         </div>
 
         {/* Clear Primary Heading */}
-        <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 tracking-tight leading-[1.35]">
-          {t.heroTitle}
-        </h1>
+        <div className="space-y-2">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 tracking-tight leading-[1.35]">
+            {t.heroTitle}
+          </h1>
+          <p className="text-sm sm:text-base text-slate-600 leading-relaxed max-w-2xl">
+            {t.heroDesc}
+          </p>
+        </div>
 
-        {/* Short, beginner-friendly explanation */}
-        <p className="text-sm sm:text-base text-slate-600 leading-relaxed max-w-2xl">
-          {t.heroDesc}
-        </p>
+        {/* 3-Step Visual Quick Start Guide */}
+        <section aria-label={t.quickStartTitle} className="space-y-2.5">
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-black uppercase tracking-wider text-slate-500">
+              {t.quickStartTitle}
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            {quickStartSteps.map((step, idx) => {
+              const StepIcon = step.icon;
+              return (
+                <div
+                  key={idx}
+                  className={`p-3.5 sm:p-4 rounded-2xl border bg-white shadow-2xs flex flex-col justify-between transition-all hover:shadow-xs hover:border-slate-300 ${step.color}`}
+                >
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span
+                        className={`text-[11px] font-black px-2.5 py-0.5 rounded-full ${step.badgeColor}`}
+                      >
+                        {step.badge}
+                      </span>
+                      <StepIcon className="w-4 h-4 opacity-75" />
+                    </div>
+                    <h2 className="text-xs sm:text-sm font-bold text-slate-900 leading-snug">
+                      {step.title}
+                    </h2>
+                    <p className="text-[12px] text-slate-600 leading-relaxed">
+                      {step.desc}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </section>
 
         {/* Short definition of Skill */}
         <div className="flex items-start gap-2.5 p-3 sm:p-3.5 rounded-2xl bg-amber-50/70 border border-amber-200/80 text-amber-950 text-xs sm:text-sm">
@@ -122,11 +190,12 @@ export const HeroIntro: React.FC<HeroIntroProps> = ({
         </div>
 
         {/* Primary and Secondary Action Buttons */}
-        <div className="pt-2 flex flex-wrap items-center gap-3">
+        <div className="pt-1 flex flex-wrap items-center gap-3">
           <button
             type="button"
             id="hero-start-btn"
             onClick={onStart}
+            aria-label={t.heroStartBtn}
             className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl text-sm sm:text-base font-bold text-white bg-blue-600 hover:bg-blue-700 active:scale-[0.98] shadow-md shadow-blue-600/25 transition min-h-[48px] cursor-pointer"
           >
             <span>{t.heroStartBtn}</span>
@@ -137,6 +206,7 @@ export const HeroIntro: React.FC<HeroIntroProps> = ({
             type="button"
             id="hero-templates-btn"
             onClick={onOpenTemplates}
+            aria-label={t.heroTemplatesBtn}
             className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-2xl text-sm sm:text-base font-bold text-slate-700 bg-white hover:bg-slate-50 active:bg-slate-100 border border-slate-300 shadow-2xs transition min-h-[48px] cursor-pointer"
           >
             <Sparkles className="w-4 h-4 text-amber-500 fill-amber-500" />
@@ -145,10 +215,11 @@ export const HeroIntro: React.FC<HeroIntroProps> = ({
         </div>
 
         {/* Quieter Collapsible 'Other Tools / Learn More' Area */}
-        <div className="pt-3 border-t border-slate-100">
+        <nav aria-label="Ecosystem tools" className="pt-2 border-t border-slate-200/60">
           <button
             type="button"
             onClick={() => setShowOtherTools(!showOtherTools)}
+            aria-expanded={showOtherTools}
             className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-800 transition py-1 cursor-pointer"
           >
             <span>{t.heroOtherTools}</span>
@@ -198,8 +269,8 @@ export const HeroIntro: React.FC<HeroIntroProps> = ({
               )}
             </div>
           )}
-        </div>
+        </nav>
       </div>
-    </section>
+    </header>
   );
 };
