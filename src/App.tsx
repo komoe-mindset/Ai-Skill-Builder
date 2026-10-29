@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import {
   StepNumber,
   SkillFormData,
+  WORKFLOW_AI_VIDEO_URL,
+  WORKFLOW_AI_SKILL_URL,
   GEMINI_SKILL_BUILDER_GEM_URL,
   GEMINI_SPARK_GUIDE_URL,
   SPARK_SKILL_STUDIO_URL,
@@ -9,7 +11,16 @@ import {
 } from './types';
 import { Language, TRANSLATIONS } from './translations';
 import { buildPromptText, copyToClipboard } from './utils/helpers';
-import { ExternalLink, Cpu, BookOpen, Bot, Server } from 'lucide-react';
+import {
+  ExternalLink,
+  Cpu,
+  BookOpen,
+  Bot,
+  Server,
+  Video,
+  Workflow,
+  Globe,
+} from 'lucide-react';
 import { Header } from './components/Header';
 import { HeroIntro } from './components/HeroIntro';
 import { StepNavigation } from './components/StepNavigation';
@@ -49,14 +60,14 @@ export default function App() {
   // Load language preference on mount, defaulting to English ('en')
   useEffect(() => {
     try {
-      const stored = localStorage.getItem(LANG_STORAGE_KEY);
-      if (stored === 'en' || stored === 'my') {
-        setLang(stored as Language);
+      const savedLang = localStorage.getItem(LANG_STORAGE_KEY) as Language;
+      if (savedLang === 'en' || savedLang === 'my') {
+        setLang(savedLang);
       } else {
         setLang('en');
       }
     } catch {
-      // Ignore
+      setLang('en');
     }
   }, []);
 
@@ -65,43 +76,19 @@ export default function App() {
     try {
       localStorage.setItem(LANG_STORAGE_KEY, newLang);
     } catch {
-      // Ignore
-    }
-    // If prompt is already generated, update it in the newly selected language if user hasn't heavily customized
-    if (formData.task && formData.success) {
-      setGeneratedPrompt(buildPromptText(formData, newLang));
+      // Ignore localStorage write failure in restricted environments
     }
   };
 
-  const handleFormChange = (updates: Partial<SkillFormData>) => {
-    setFormData((prev) => ({ ...prev, ...updates }));
+  const handleFieldChange = (field: keyof SkillFormData, value: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
     if (formError) setFormError('');
   };
 
-  const handleStep1Submit = () => {
-    if (!formData.task.trim() || !formData.success.trim()) {
-      setFormError(
-        lang === 'en'
-          ? 'Please provide both the Task description and Success criteria.'
-          : 'Skill ရဲ့ အလုပ်နဲ့ အောင်မြင်ရလဒ်ကို ဖြည့်ပေးပါ။'
-      );
-      return;
-    }
-    setFormError('');
-    const prompt = buildPromptText(formData, lang);
-    setGeneratedPrompt(prompt);
-    goToStep(2);
-  };
-
-  const goToStep = (step: StepNumber) => {
-    setCurrentStep(step);
-    if (step > maxReachedStep) {
-      setMaxReachedStep(step);
-    }
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const handleRestart = () => {
+  const handleClearForm = () => {
     setFormData({
       task: '',
       destination: 'Agent Skills format (SKILL.md)',
@@ -109,26 +96,61 @@ export default function App() {
       success: '',
     });
     setFormError('');
-    setGeneratedPrompt('');
-    setMaxReachedStep(1);
-    setCurrentStep(1);
+  };
+
+  const handleStep1Submit = () => {
+    if (!formData.task.trim()) {
+      setFormError(
+        lang === 'en'
+          ? 'Please enter the task you want the AI Skill to accomplish.'
+          : 'AI Skill ဖြင့် လုပ်ဆောင်လိုသော အလုပ် (Task) ကို ဖြည့်သွင်းပေးပါ။'
+      );
+      return;
+    }
+    if (!formData.success.trim()) {
+      setFormError(
+        lang === 'en'
+          ? 'Please specify the success criteria.'
+          : 'အောင်မြင်မှုစံနှုန်း (Success Criteria) ကို သတ်မှတ်ပေးပါ။'
+      );
+      return;
+    }
+
+    setFormError('');
+    const prompt = buildPromptText(formData);
+    setGeneratedPrompt(prompt);
+    setCurrentStep(2);
+    if (maxReachedStep < 2) setMaxReachedStep(2);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleSelectTemplate = (data: SkillFormData) => {
-    setFormData(data);
-    const prompt = buildPromptText(data, lang);
-    setGeneratedPrompt(prompt);
-    goToStep(2);
+  const handleSelectTemplate = (templateData: SkillFormData) => {
+    setFormData(templateData);
+    setFormError('');
+    setIsTemplatesModalOpen(false);
+  };
+
+  const handleRestart = () => {
+    handleClearForm();
+    setCurrentStep(1);
+    setMaxReachedStep(1);
+    setGeneratedPrompt('');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const goToStep = (step: StepNumber) => {
+    if (step <= maxReachedStep || step === 1) {
+      setCurrentStep(step);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
   const handleMobileCopy = async () => {
-    if (currentStep === 2) {
-      const ok = await copyToClipboard(generatedPrompt);
-      if (ok) {
-        setMobileCopied(true);
-        setTimeout(() => setMobileCopied(false), 2000);
-      }
+    if (!generatedPrompt) return;
+    const ok = await copyToClipboard(generatedPrompt);
+    if (ok) {
+      setMobileCopied(true);
+      setTimeout(() => setMobileCopied(false), 2000);
     }
   };
 
@@ -140,9 +162,9 @@ export default function App() {
   const t = TRANSLATIONS[lang];
 
   return (
-    <div className="min-h-screen pb-20 sm:pb-12 bg-gradient-to-br from-slate-100 via-slate-50 to-blue-50/30 text-slate-800">
+    <div className="min-h-screen bg-slate-50 text-slate-800 pb-24 sm:pb-12 antialiased selection:bg-blue-100 selection:text-blue-900">
       <div className="max-w-4xl mx-auto px-3 sm:px-6 pt-3 sm:pt-6">
-        {/* Top Header with Language Switcher */}
+        {/* Header Bar */}
         <Header
           lang={lang}
           onChangeLang={handleLanguageChange}
@@ -152,48 +174,57 @@ export default function App() {
           onReset={handleRestart}
         />
 
-        {/* Main Application Container */}
-        <main className="bg-white/95 backdrop-blur-sm rounded-3xl border border-slate-200/90 shadow-xl shadow-slate-200/50 overflow-hidden">
-          {/* Hero Intro (visible on Step 1) */}
-          {currentStep === 1 && (
-            <HeroIntro
-              lang={lang}
-              onStart={() => {
-                const element = document.getElementById('task-input');
-                element?.focus();
-              }}
-              onOpenTemplates={() => setIsTemplatesModalOpen(true)}
-              onOpenEcosystem={() => setIsEcosystemModalOpen(true)}
-            />
-          )}
+        {/* Main Content Card Container */}
+        <main className="bg-white rounded-3xl shadow-sm border border-slate-200/80 overflow-hidden">
+          {/* Hero Section */}
+          <HeroIntro
+            lang={lang}
+            onStart={() => {
+              goToStep(1);
+              const formEl = document.getElementById('step-content-area');
+              if (formEl) {
+                formEl.scrollIntoView({ behavior: 'smooth' });
+              }
+            }}
+            onOpenTemplates={() => setIsTemplatesModalOpen(true)}
+            onOpenEcosystem={() => setIsEcosystemModalOpen(true)}
+          />
 
-          {/* Interactive Step Navigation Bar */}
+          {/* Interactive Step Navigator */}
           <StepNavigation
             lang={lang}
             currentStep={currentStep}
             maxReachedStep={maxReachedStep}
-            onSelectStep={(step) => goToStep(step)}
+            onStepClick={goToStep}
           />
 
-          {/* Step 1: Define Task */}
+          {/* Step 1: Input Requirements */}
           {currentStep === 1 && (
-            <Step1TaskForm
-              lang={lang}
-              formData={formData}
-              onChange={handleFormChange}
-              onSubmit={handleStep1Submit}
-              error={formError}
-            />
+            <div id="step-content-area">
+              <Step1TaskForm
+                lang={lang}
+                formData={formData}
+                formError={formError}
+                onChange={handleFieldChange}
+                onSubmit={handleStep1Submit}
+                onClear={handleClearForm}
+                onOpenTemplates={() => setIsTemplatesModalOpen(true)}
+              />
+            </div>
           )}
 
-          {/* Step 2: Copy Prompt to Gem */}
+          {/* Step 2: Output Formatted Prompt */}
           {currentStep === 2 && (
             <Step2PromptView
               lang={lang}
-              promptText={generatedPrompt}
-              onUpdatePrompt={(text) => setGeneratedPrompt(text)}
+              formData={formData}
+              generatedPrompt={generatedPrompt}
               onPrev={() => goToStep(1)}
-              onNext={() => goToStep(3)}
+              onNext={() => {
+                setCurrentStep(3);
+                if (maxReachedStep < 3) setMaxReachedStep(3);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
             />
           )}
 
@@ -219,55 +250,85 @@ export default function App() {
         </main>
 
         {/* Clean Footer Note & Resource Links */}
-        <footer className="mt-8 mb-4 text-center text-xs text-slate-500 leading-relaxed px-4 space-y-3">
-          <div className="flex flex-wrap items-center justify-center gap-2 max-w-2xl mx-auto">
-            <a
-              href={SPARK_SKILL_STUDIO_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-purple-50 hover:bg-purple-100 border border-purple-200/90 text-purple-900 font-bold transition shadow-2xs"
-              title="Spark Skill Studio & Architect (skill-builder.komoe.org)"
-            >
-              <Cpu className="w-3.5 h-3.5 text-purple-600" />
-              <span>{t.studioBtn}</span>
-              <ExternalLink className="w-3 h-3 text-purple-600" />
-            </a>
+        <footer className="mt-8 mb-4 text-center text-xs text-slate-500 leading-relaxed px-4 space-y-3.5">
+          {/* Neat & Tidy All Websites Link Chips */}
+          <div className="space-y-1.5">
+            <span className="text-[11px] font-bold tracking-wider text-slate-400 uppercase">
+              {lang === 'en' ? 'Ecosystem Websites & Tools' : 'ချိတ်ဆက်ထားသော ဝဘ်ဆိုဒ်များနှင့် ကိရိယာများ'}
+            </span>
+            <div className="flex flex-wrap items-center justify-center gap-2 max-w-3xl mx-auto pt-1">
+              <a
+                href={WORKFLOW_AI_VIDEO_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 border border-rose-200/90 text-rose-900 font-bold transition shadow-2xs"
+                title="Workflow AI Video (https://workflow-ai-video.komoe.org/)"
+              >
+                <Video className="w-3.5 h-3.5 text-rose-600" />
+                <span>Workflow AI Video</span>
+                <ExternalLink className="w-2.5 h-2.5 text-rose-500" />
+              </a>
 
-            <a
-              href={GEMINI_SPARK_GUIDE_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 border border-amber-200/90 text-amber-900 font-bold transition shadow-2xs"
-              title="Gemini Spark User Guide (gemini-spark.komoe.org)"
-            >
-              <BookOpen className="w-3.5 h-3.5 text-amber-600" />
-              <span>{t.sparkGuideBtn}</span>
-              <ExternalLink className="w-3 h-3 text-amber-700" />
-            </a>
+              <a
+                href={WORKFLOW_AI_SKILL_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-cyan-50 hover:bg-cyan-100 border border-cyan-200/90 text-cyan-900 font-bold transition shadow-2xs"
+                title="Workflow AI Skill (https://workflow-ai-skill.komoe.org/)"
+              >
+                <Workflow className="w-3.5 h-3.5 text-cyan-600" />
+                <span>Workflow AI Skill</span>
+                <ExternalLink className="w-2.5 h-2.5 text-cyan-500" />
+              </a>
 
-            <a
-              href={GEMINI_SKILL_BUILDER_GEM_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-50 hover:bg-blue-100 border border-blue-200/90 text-blue-900 font-bold transition shadow-2xs"
-              title="Gemini Skill Builder Gem"
-            >
-              <Bot className="w-3.5 h-3.5 text-blue-600" />
-              <span>{t.gemBtn}</span>
-              <ExternalLink className="w-3 h-3 text-blue-600" />
-            </a>
+              <a
+                href={SPARK_SKILL_STUDIO_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-purple-50 hover:bg-purple-100 border border-purple-200/90 text-purple-900 font-bold transition shadow-2xs"
+                title="Spark Skill Studio & Architect (skill-builder.komoe.org)"
+              >
+                <Cpu className="w-3.5 h-3.5 text-purple-600" />
+                <span>Spark Skill Studio</span>
+                <ExternalLink className="w-2.5 h-2.5 text-purple-600" />
+              </a>
 
-            <a
-              href={MCP_GUIDE_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 border border-emerald-200/90 text-emerald-900 font-bold transition shadow-2xs"
-              title="MCP Guide Website (https://mcp-guide.komoe.org/)"
-            >
-              <Server className="w-3.5 h-3.5 text-emerald-600" />
-              <span>{t.mcpGuideBtn}</span>
-              <ExternalLink className="w-3 h-3 text-emerald-600" />
-            </a>
+              <a
+                href={MCP_GUIDE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 border border-emerald-200/90 text-emerald-900 font-bold transition shadow-2xs"
+                title="MCP Guide Website (https://mcp-guide.komoe.org/)"
+              >
+                <Server className="w-3.5 h-3.5 text-emerald-600" />
+                <span>MCP Guide</span>
+                <ExternalLink className="w-2.5 h-2.5 text-emerald-600" />
+              </a>
+
+              <a
+                href={GEMINI_SPARK_GUIDE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 border border-amber-200/90 text-amber-900 font-bold transition shadow-2xs"
+                title="Gemini Spark User Guide (gemini-spark.komoe.org)"
+              >
+                <BookOpen className="w-3.5 h-3.5 text-amber-600" />
+                <span>Spark Guide</span>
+                <ExternalLink className="w-2.5 h-2.5 text-amber-700" />
+              </a>
+
+              <a
+                href={GEMINI_SKILL_BUILDER_GEM_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-50 hover:bg-blue-100 border border-blue-200/90 text-blue-900 font-bold transition shadow-2xs"
+                title="Gemini Skill Builder Gem"
+              >
+                <Bot className="w-3.5 h-3.5 text-blue-600" />
+                <span>Skill Gem</span>
+                <ExternalLink className="w-2.5 h-2.5 text-blue-600" />
+              </a>
+            </div>
           </div>
 
           <p>

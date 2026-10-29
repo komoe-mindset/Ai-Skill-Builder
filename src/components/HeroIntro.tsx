@@ -7,8 +7,13 @@ import {
   BookOpen,
   Cpu,
   Server,
+  Video,
+  Workflow,
+  Globe,
 } from 'lucide-react';
 import {
+  WORKFLOW_AI_VIDEO_URL,
+  WORKFLOW_AI_SKILL_URL,
   GEMINI_SKILL_BUILDER_GEM_URL,
   GEMINI_SPARK_GUIDE_URL,
   SPARK_SKILL_STUDIO_URL,
@@ -31,64 +36,88 @@ export const HeroIntro: React.FC<HeroIntroProps> = ({
 }) => {
   const t = TRANSLATIONS[lang];
 
+  const quickLinks = [
+    {
+      title: 'Workflow AI Video',
+      url: WORKFLOW_AI_VIDEO_URL,
+      icon: Video,
+      color: 'bg-rose-50 text-rose-800 border-rose-200/90 hover:bg-rose-100',
+      iconColor: 'text-rose-600',
+    },
+    {
+      title: 'Workflow AI Skill',
+      url: WORKFLOW_AI_SKILL_URL,
+      icon: Workflow,
+      color: 'bg-cyan-50 text-cyan-800 border-cyan-200/90 hover:bg-cyan-100',
+      iconColor: 'text-cyan-600',
+    },
+    {
+      title: 'Skill Studio',
+      url: SPARK_SKILL_STUDIO_URL,
+      icon: Cpu,
+      color: 'bg-purple-50 text-purple-800 border-purple-200/90 hover:bg-purple-100',
+      iconColor: 'text-purple-600',
+    },
+    {
+      title: 'MCP Guide',
+      url: MCP_GUIDE_URL,
+      icon: Server,
+      color: 'bg-emerald-50 text-emerald-800 border-emerald-200/90 hover:bg-emerald-100',
+      iconColor: 'text-emerald-600',
+    },
+    {
+      title: 'Spark Guide',
+      url: GEMINI_SPARK_GUIDE_URL,
+      icon: BookOpen,
+      color: 'bg-amber-50 text-amber-900 border-amber-200/90 hover:bg-amber-100',
+      iconColor: 'text-amber-600',
+    },
+    {
+      title: 'Skill Gem',
+      url: GEMINI_SKILL_BUILDER_GEM_URL,
+      icon: Bot,
+      color: 'bg-blue-50 text-blue-800 border-blue-200/90 hover:bg-blue-100',
+      iconColor: 'text-blue-600',
+    },
+  ];
+
   return (
     <section className="relative overflow-hidden border-b border-slate-200/90 bg-gradient-to-br from-blue-50/80 via-white to-purple-50/50 p-5 sm:p-8">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
         {/* Left Column: Heading and description */}
-        <div className="lg:col-span-7 space-y-3">
-          <div className="flex flex-wrap items-center gap-2">
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-800 tracking-wide">
-              <Sparkles className="w-3.5 h-3.5 text-blue-600" />
-              <span>{t.heroTag}</span>
+        <div className="lg:col-span-7 space-y-3.5">
+          {/* Top Tag & Neat Tidy Website Links Row */}
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-800 tracking-wide">
+                <Sparkles className="w-3.5 h-3.5 text-blue-600" />
+                <span>{t.heroTag}</span>
+              </div>
+              <span className="text-[11px] font-semibold text-slate-500 hidden sm:inline">
+                {lang === 'en' ? 'Ecosystem Websites & Tools:' : 'ချိတ်ဆက်ထားသော ဝဘ်ဆိုဒ်များ:'}
+              </span>
             </div>
 
-            <a
-              href={SPARK_SKILL_STUDIO_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-purple-50 text-purple-800 border border-purple-200/90 hover:bg-purple-100 transition"
-              title="Spark Skill Studio & Architect"
-            >
-              <Cpu className="w-3.5 h-3.5 text-purple-600" />
-              <span>{t.studioBtn}</span>
-              <ExternalLink className="w-3 h-3 text-purple-500" />
-            </a>
-
-            <a
-              href={GEMINI_SKILL_BUILDER_GEM_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-200/80 hover:bg-indigo-100 transition"
-              title="Gemini Skill Builder Gem"
-            >
-              <Bot className="w-3.5 h-3.5 text-indigo-600" />
-              <span>{t.gemBtn}</span>
-              <ExternalLink className="w-3 h-3 text-indigo-500" />
-            </a>
-
-            <a
-              href={GEMINI_SPARK_GUIDE_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-900 border border-amber-200/80 hover:bg-amber-100 transition"
-              title="Gemini Spark User Guide"
-            >
-              <BookOpen className="w-3.5 h-3.5 text-amber-600" />
-              <span>{t.sparkGuideBtn}</span>
-              <ExternalLink className="w-3 h-3 text-amber-500" />
-            </a>
-
-            <a
-              href={MCP_GUIDE_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200/80 hover:bg-emerald-100 transition"
-              title="MCP Guide Website (https://mcp-guide.komoe.org/)"
-            >
-              <Server className="w-3.5 h-3.5 text-emerald-600" />
-              <span>{t.mcpGuideBtn}</span>
-              <ExternalLink className="w-3 h-3 text-emerald-500" />
-            </a>
+            {/* Neat & Tidy Chips Grid for all 6 websites */}
+            <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
+              {quickLinks.map((item, idx) => {
+                const IconComp = item.icon;
+                return (
+                  <a
+                    key={idx}
+                    href={item.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-bold border shadow-2xs transition active:scale-[0.98] ${item.color}`}
+                    title={`${item.title} (${item.url})`}
+                  >
+                    <IconComp className={`w-3.5 h-3.5 ${item.iconColor}`} />
+                    <span>{item.title}</span>
+                    <ExternalLink className="w-2.5 h-2.5 opacity-60" />
+                  </a>
+                );
+              })}
+            </div>
           </div>
 
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 tracking-tight leading-[1.35]">
@@ -103,7 +132,7 @@ export const HeroIntro: React.FC<HeroIntroProps> = ({
           {/* Quick Ecosystem Hub Bar */}
           <div className="p-2.5 sm:p-3 rounded-2xl bg-white/95 border border-purple-200/80 shadow-2xs text-xs text-slate-700 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
             <div className="flex items-center gap-2">
-              <div className="p-1 rounded-md bg-purple-100 text-purple-700">
+              <div className="p-1.5 rounded-lg bg-purple-100 text-purple-700">
                 <Cpu className="w-4 h-4 shrink-0" />
               </div>
               <span className="font-medium text-slate-700">

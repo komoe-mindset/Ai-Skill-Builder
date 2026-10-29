@@ -14,6 +14,12 @@ export interface Translations {
   gemBtn: string;
   sparkGuideBtn: string;
   mcpGuideBtn: string;
+  workflowAiVideoBtn: string;
+  workflowAiSkillBtn: string;
+  allWebsitesBtn: string;
+  categoryWorkflows: string;
+  categoryStudios: string;
+  categoryGuides: string;
 
   // Hero
   heroTag: string;
@@ -152,6 +158,12 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     gemBtn: 'Skill Builder Gem',
     sparkGuideBtn: 'Spark Guide',
     mcpGuideBtn: 'MCP Guide',
+    workflowAiVideoBtn: 'Workflow AI Video',
+    workflowAiSkillBtn: 'Workflow AI Skill',
+    allWebsitesBtn: 'ဝဘ်ဆိုဒ်များနှင့် ကိရိယာများ',
+    categoryWorkflows: 'AI Workflows',
+    categoryStudios: 'Studio & Generator',
+    categoryGuides: 'Guides & Documentation',
 
     // Hero
     heroTag: 'Spark Suite လမ်းညွှန်',
@@ -307,6 +319,12 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     gemBtn: 'Skill Builder Gem',
     sparkGuideBtn: 'Spark Guide',
     mcpGuideBtn: 'MCP Guide',
+    workflowAiVideoBtn: 'Workflow AI Video',
+    workflowAiSkillBtn: 'Workflow AI Skill',
+    allWebsitesBtn: 'Ecosystem Websites',
+    categoryWorkflows: 'AI Workflows',
+    categoryStudios: 'Studio & Generator',
+    categoryGuides: 'Guides & Documentation',
 
     // Hero
     heroTag: 'Spark Suite Guide',
